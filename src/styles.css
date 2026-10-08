@@ -193,6 +193,7 @@ h1, h2, h3, p { margin-top: 0; }
   .scenario-net strong { font-size: 28px; }
 }
 @media (max-width: 720px) {
+  .field input, .field select { font-size: 16px; }
   .shell { width: min(calc(100% - 32px), 560px); }
   .header-inner { min-height: 64px; }.brand { font-size: 16px; }.brand-mark { width: 28px; height: 28px; }.site-header nav { display: none; }
   .hero-grid { display: block; min-height: 0; }.hero-copy { padding: 62px 0 69px; }.hero h1 { font-size: clamp(48px, 12vw, 66px); letter-spacing: -3.5px; }.hero p { font-size: 14px; }.hero-art { display: none; }
@@ -202,6 +203,9 @@ h1, h2, h3, p { margin-top: 0; }
   .comparison-grid { grid-template-columns: 1fr; }.scenario-net strong { font-size: 29px; }
   .method-section, .sources-section { padding-block: 58px; }.method-grid { grid-template-columns: 1fr; gap: 25px; }.method-grid article { padding-top: 17px; }.method-grid h3 { margin-top: 11px; }
   .footer-inner { flex-direction: column; justify-content: center; align-items: start; gap: 5px; }
+}
+@media (hover: none) and (pointer: coarse) {
+  html, body { touch-action: pan-x pan-y; }
 }
 @media (max-width: 490px) {
   .form-panel { padding: 24px 18px; }.field-grid, .field-grid.thirds { grid-template-columns: 1fr; gap: 19px; }.form-group { margin-bottom: 26px; padding-bottom: 26px; }.field-grid > .field > label, .field-grid.thirds > .field > label { min-height: 0; }

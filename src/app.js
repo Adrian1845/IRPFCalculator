@@ -6,6 +6,7 @@ import { calculateSavings } from "./tax/savings-calculator.js";
 import { calculateVoxSavings } from "./tax/vox-savings-calculator.js";
 import { validateSavingsInput } from "./tax/savings-validation.js";
 import { formatPerPayment } from "./payment-view.js";
+import { acceptsNumericInsertion, isNumericDraft } from "./numeric-input.js";
 
 const form = document.querySelector("#irpf-form");
 const regionSelect = document.querySelector("#region");
@@ -14,9 +15,59 @@ const errorSummary = document.querySelector("#error-summary");
 const paymentSelector = document.querySelector(".payment-selector");
 const resultTabs = [...document.querySelectorAll('.result-tabs [role="tab"]')];
 const touched = new Set();
+const lastNumericValues = new WeakMap();
 let submitted = false;
 let latestCurrent = null;
 let latestProposed = null;
+
+function numericKind(field) {
+  if (field.inputMode === "numeric") return "integer";
+  if (field.name === "salary") return "money";
+  if (field.name === "investmentIncome" || field.name === "disposalGains") return "signed-money";
+  return null;
+}
+
+for (const field of form.querySelectorAll('input[inputmode="numeric"], input[inputmode="decimal"]')) {
+  lastNumericValues.set(field, field.value);
+}
+
+form.addEventListener("beforeinput", (event) => {
+  const field = event.target;
+  const kind = numericKind(field);
+  if (!kind || event.isComposing || !event.inputType.startsWith("insert") || event.data === null) return;
+  if (!acceptsNumericInsertion(field.value, field.selectionStart, field.selectionEnd, event.data, kind)) {
+    event.preventDefault();
+  }
+});
+
+form.addEventListener("paste", (event) => {
+  const field = event.target;
+  const kind = numericKind(field);
+  if (!kind) return;
+  const pasted = event.clipboardData?.getData("text") ?? "";
+  if (!acceptsNumericInsertion(field.value, field.selectionStart, field.selectionEnd, pasted, kind)) {
+    event.preventDefault();
+  }
+});
+
+function restoreInvalidNumericInput(field) {
+  const kind = numericKind(field);
+  if (!kind) return;
+  if (isNumericDraft(field.value, kind)) lastNumericValues.set(field, field.value);
+  else field.value = lastNumericValues.get(field) ?? "";
+}
+
+form.addEventListener("input", (event) => {
+  if (!event.isComposing) restoreInvalidNumericInput(event.target);
+});
+form.addEventListener("compositionend", (event) => restoreInvalidNumericInput(event.target));
+
+if (window.matchMedia("(hover: none) and (pointer: coarse)").matches) {
+  document.addEventListener("gesturestart", (event) => event.preventDefault(), { passive: false });
+  document.addEventListener("touchmove", (event) => {
+    if (event.touches.length > 1) event.preventDefault();
+  }, { passive: false });
+}
 
 for (const [key, region] of Object.entries(policy2025.regions).sort((a, b) => a[1].name.localeCompare(b[1].name, "es"))) {
   regionSelect.add(new Option(region.name, key));
@@ -196,8 +247,13 @@ function renderResult(result, raw) {
   document.getElementById("vox-children").textContent = String(proposed.children);
   document.getElementById("vox-lower-rate").textContent = formatRate(BigInt(proposed.lowerRate));
   document.getElementById("vox-upper-rate").textContent = formatRate(BigInt(proposed.upperRate));
-  document.getElementById("tax-difference").textContent = signedMoney(proposed.taxDifference);
-  document.getElementById("net-difference").textContent = signedMoney(proposed.netDifference);
+  const taxDifference = proposed.taxDifference;
+  document.getElementById("comparison-impact-label").textContent = taxDifference > 0n
+    ? "Ahorro anual en IRPF (aumento del neto)"
+    : taxDifference < 0n
+      ? "IRPF adicional anual (reducción del neto)"
+      : "Sin cambio anual en IRPF ni en el neto";
+  document.getElementById("tax-difference").textContent = formatMoney(taxDifference < 0n ? -taxDifference : taxDifference);
 }
 
 paymentSelector.addEventListener("change", updatePaymentValues);
