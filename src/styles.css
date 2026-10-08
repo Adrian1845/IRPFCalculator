@@ -157,6 +157,15 @@ h1, h2, h3, p { margin-top: 0; }
 .comparison-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: stretch; gap: 12px; margin-top: 20px; }
 .scenario-card { min-width: 0; border: 1px solid #dce5e1; border-radius: 9px; padding: 17px 14px; background: #fbfcfa; }
 .proposal-scenario { background: #edf4f1; border-color: #cdded5; }
+.regional-toggle { margin: -3px 0 17px; padding: 12px; border: 1px solid #cdded5; border-radius: 7px; background: #fff; }
+.regional-toggle label { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 12px; color: #2c4350; font-size: 12px; font-weight: 800; cursor: pointer; }
+.regional-toggle input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.toggle-track { flex: 0 0 36px; height: 21px; border-radius: 12px; background: #aabbb4; transition: background .2s; }
+.toggle-track::after { content: ""; display: block; width: 15px; height: 15px; margin: 3px; border-radius: 50%; background: #fff; transition: transform .2s; }
+.regional-toggle input:checked + .toggle-track { background: #326e53; }
+.regional-toggle input:checked + .toggle-track::after { transform: translateX(15px); }
+.regional-toggle input:focus-visible + .toggle-track { outline: 3px solid #77ad7a; outline-offset: 3px; }
+.regional-toggle p { margin: 8px 0 0; color: #61757e; font-size: 11px; line-height: 1.5; }
 .scenario-label { display: block; min-height: 28px; color: #568468; font-size: 10px; font-weight: 800; letter-spacing: .8px; line-height: 1.35; }
 .scenario-card h3 { margin: 3px 0 15px; font-size: 18px; letter-spacing: -.5px; }
 .scenario-net { display: flex; flex-direction: column; justify-content: center; min-height: 104px; gap: 7px; padding: 13px; border-radius: 7px; background: #e3f2cf; }

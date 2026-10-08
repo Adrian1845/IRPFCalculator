@@ -69,6 +69,25 @@ test("regional scales remain region-dependent under the proposal", () => {
   assert.notEqual(madrid.tax, valencia.tax);
 });
 
+test("optional scenario applies only the proposed scale to the whole general base", () => {
+  const madrid = currentWith({ region: "madrid" });
+  const valencia = currentWith({ region: "valencia" });
+  const defaultResult = calculateVox(madrid);
+  const stateOnly = calculateVox(madrid, voxPolicy, { includeRegionalTax: false });
+  const valenciaStateOnly = calculateVox(valencia, voxPolicy, { includeRegionalTax: false });
+
+  assert.equal(defaultResult.includeRegionalTax, true);
+  assert.equal(stateOnly.includeRegionalTax, false);
+  assert.equal(stateOnly.stateTax, defaultResult.stateTax);
+  assert.equal(stateOnly.regionalTax, 0n);
+  assert.equal(stateOnly.tax, stateOnly.stateTax);
+  assert.equal(defaultResult.tax - stateOnly.tax, madrid.regionalTax);
+  assert.equal(stateOnly.tax, valenciaStateOnly.tax);
+  assert.equal(stateOnly.netAnnual - defaultResult.netAnnual, madrid.regionalTax);
+  assert.equal(stateOnly.taxDifference, madrid.tax - stateOnly.tax);
+  assert.equal(stateOnly.netDifference, stateOnly.taxDifference);
+});
+
 test("a base below 22000 can still owe autonomous IRPF", () => {
   const current = currentWith({ salary: "24000", region: "madrid" });
   const proposed = calculateVox(current);
@@ -76,6 +95,8 @@ test("a base below 22000 can still owe autonomous IRPF", () => {
   assert.equal(proposed.stateTax, 0n);
   assert.equal(proposed.regionalTax, current.regionalTax);
   assert.ok(proposed.tax > 0n);
+  const stateOnly = calculateVox(current, voxPolicy, { includeRegionalTax: false });
+  assert.equal(stateOnly.tax, 0n);
 });
 
 test("inactive income has no proposed result until its type is known", () => {

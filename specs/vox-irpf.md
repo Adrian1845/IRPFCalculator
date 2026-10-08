@@ -32,9 +32,11 @@ neto_propuesto = bruto - cotización_del_empleado - IRPF_total_propuesto
 
 Todos los importes se calculan con la precisión decimal y el redondeo de presentación existentes. El ahorro fiscal es `IRPF vigente - IRPF propuesto` y equivale al cambio del neto anual porque cotización y bruto son iguales.
 
+El interruptor «Excluir el tramo autonómico» permite un escenario hipotético adicional: `cuota_autonómica_propuesta = 0` e `IRPF_total_propuesto = cuota_estatal_propuesta`. No modifica la base liquidable, el mínimo estatal ni los tipos de la propuesta, y el cálculo vigente sigue intacto. Aplica la escala propuesta a toda la base general sin duplicar tipos. La proposición de ley no plantea eliminar la cuota autonómica, por lo que la opción aparece desactivada por defecto y se identifica como supuesto del simulador. No afecta a la comparación separada del ahorro.
+
 ## Salida y advertencias
 
-Mostrar el IRPF total y su desglose en cuota estatal propuesta y cuota autonómica de 2025. La comunidad autónoma sigue siendo relevante: dos residentes con la misma base y familia pueden tener distinto IRPF propuesto. Indicar que los tipos del 15 % y del 25 % son **solo estatales**, y que el tipo marginal conjunto suma el tipo autonómico correspondiente. No presentar 22.000 € como umbral de exención total del IRPF: puede existir cuota autonómica con base inferior a ese importe.
+Mostrar el IRPF total y su desglose en cuota estatal propuesta y cuota autonómica de 2025. En el escenario predeterminado, la comunidad autónoma sigue siendo relevante: dos residentes con la misma base y familia pueden tener distinto IRPF propuesto. Indicar que los tipos del 15 % y del 25 % son **solo estatales** en la proposición, y que el tipo marginal conjunto suma el tipo autonómico correspondiente. Con el interruptor activado, mostrar cuota autonómica cero y recalcular total, neto, tipo efectivo y diferencia anual. No presentar 22.000 € como umbral de exención total del IRPF vigente o del escenario predeterminado: puede existir cuota autonómica con base inferior a ese importe.
 
 El resultado es orientativo, anterior a retenciones, deducciones no modeladas y otros ajustes de la declaración. No se debe prometer ahorro en todos los casos.
 
@@ -44,4 +46,4 @@ La intención estatal de la proposición y su técnica de redacción no encajan 
 
 ## Verificación
 
-Probar los límites de 22.000 € y 70.000 €, un céntimo alrededor de cada límite, cero ingresos, cuatro o más hijos, hijos compartidos, reducción conjunta, mínimos familiares, variación entre comunidades y conservación exacta de la cuota autonómica vigente. Comprobar que la comparación de IRPF y neto coincide y que la opción «sin actividad» no produce simulación.
+Probar los límites de 22.000 € y 70.000 €, un céntimo alrededor de cada límite, cero ingresos, cuatro o más hijos, hijos compartidos, reducción conjunta, mínimos familiares, variación entre comunidades y conservación exacta de la cuota autonómica vigente. Probar además que el interruptor elimina solo la cuota autonómica del escenario propuesto y actualiza total, neto y diferencia, incluso por debajo de 22.000 €. Comprobar que la comparación de IRPF y neto coincide y que la opción «sin actividad» no produce simulación.

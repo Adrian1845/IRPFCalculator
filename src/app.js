@@ -13,6 +13,7 @@ const regionSelect = document.querySelector("#region");
 const groupSelect = document.querySelector("#professionalGroup");
 const errorSummary = document.querySelector("#error-summary");
 const paymentSelector = document.querySelector(".payment-selector");
+const noRegionalToggle = document.querySelector("#vox-no-regional");
 const resultTabs = [...document.querySelectorAll('.result-tabs [role="tab"]')];
 const touched = new Set();
 const lastNumericValues = new WeakMap();
@@ -203,36 +204,23 @@ function renderSavingsResult(currentResult, raw) {
   selectResultTab(hasSavings || savings.hasExcludedCases ? "savings" : "employment");
 }
 
-function renderResult(result, raw) {
-  latestCurrent = result;
-  document.getElementById("result-empty").hidden = true;
-  document.getElementById("result-content").hidden = false;
-  const filing = { individual: "declaración individual", married: "declaración conjunta de matrimonio", singleParent: "declaración conjunta monoparental" }[result.input.filing];
-  document.getElementById("result-context").textContent = `${result.region} · ${filing} · ${result.input.active ? "trabajo en activo" : "sin actividad laboral"}`;
-  setMoney("net-value", result.netAnnual);
-  setMoney("gross-value", result.gross);
-  setMoney("state-value", result.stateTax);
-  setMoney("regional-value", result.regionalTax);
-  setMoney("tax-value", result.tax);
-  setMoney("social-value", result.social.total);
-  setMoney("monthly-base", result.social.monthlyBase);
-  setMoney("before-expense", result.beforeExpenseNet);
-  setMoney("general-expense", result.generalExpense);
-  setMoney("extra-expense", result.extraExpense);
-  setMoney("employment-reduction", result.reduction);
-  setMoney("joint-reduction", result.jointReduction);
-  setMoney("general-base", result.base);
-  setMoney("state-allowance", result.stateAllowance);
-  setMoney("regional-allowance", result.regionalAllowance);
-  document.getElementById("rate-value").textContent = formatRate(result.effectiveRate);
-
-  const proposed = calculateVox(result);
+function renderVoxResult(result) {
+  const proposed = calculateVox(result, undefined, { includeRegionalTax: !noRegionalToggle.checked });
   latestProposed = proposed;
+  document.querySelector(".regional-toggle").hidden = !proposed.available;
+  document.getElementById("proposal-scenario-label").textContent = noRegionalToggle.checked
+    ? "TARIFAS VOX · SIN TRAMO AUTONÓMICO (HIPÓTESIS)"
+    : "PROPUESTA VOX 2024 · SIMULACIÓN";
+  document.getElementById("proposal-heading").textContent = noRegionalToggle.checked
+    ? "IRPF sin tramo autonómico"
+    : "IRPF propuesto";
+  document.getElementById("vox-regional-label").textContent = noRegionalToggle.checked
+    ? "Cuota autonómica excluida"
+    : "Cuota autonómica 2025";
   document.getElementById("vox-available").hidden = !proposed.available;
   document.getElementById("vox-unavailable").hidden = proposed.available;
   document.getElementById("comparison-delta").hidden = !proposed.available;
   updatePaymentValues();
-  renderSavingsResult(result, raw);
   if (!proposed.available) return;
 
   setMoney("vox-net-value", proposed.netAnnual);
@@ -260,7 +248,36 @@ function renderResult(result, raw) {
   document.getElementById("tax-difference").textContent = formatMoney(taxDifference < 0n ? -taxDifference : taxDifference);
 }
 
+function renderResult(result, raw) {
+  latestCurrent = result;
+  document.getElementById("result-empty").hidden = true;
+  document.getElementById("result-content").hidden = false;
+  const filing = { individual: "declaración individual", married: "declaración conjunta de matrimonio", singleParent: "declaración conjunta monoparental" }[result.input.filing];
+  document.getElementById("result-context").textContent = `${result.region} · ${filing} · ${result.input.active ? "trabajo en activo" : "sin actividad laboral"}`;
+  setMoney("net-value", result.netAnnual);
+  setMoney("gross-value", result.gross);
+  setMoney("state-value", result.stateTax);
+  setMoney("regional-value", result.regionalTax);
+  setMoney("tax-value", result.tax);
+  setMoney("social-value", result.social.total);
+  setMoney("monthly-base", result.social.monthlyBase);
+  setMoney("before-expense", result.beforeExpenseNet);
+  setMoney("general-expense", result.generalExpense);
+  setMoney("extra-expense", result.extraExpense);
+  setMoney("employment-reduction", result.reduction);
+  setMoney("joint-reduction", result.jointReduction);
+  setMoney("general-base", result.base);
+  setMoney("state-allowance", result.stateAllowance);
+  setMoney("regional-allowance", result.regionalAllowance);
+  document.getElementById("rate-value").textContent = formatRate(result.effectiveRate);
+  renderVoxResult(result);
+  renderSavingsResult(result, raw);
+}
+
 paymentSelector.addEventListener("change", updatePaymentValues);
+noRegionalToggle.addEventListener("change", () => {
+  if (latestCurrent) renderVoxResult(latestCurrent);
+});
 
 for (const [index, tab] of resultTabs.entries()) {
   tab.addEventListener("click", () => selectResultTab(tab.id === "savings-tab" ? "savings" : "employment"));

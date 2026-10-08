@@ -16,11 +16,11 @@ export function validateVoxPolicy(policy = voxPolicy) {
 
 validateVoxPolicy();
 
-export function calculateVox(currentResult, policy = voxPolicy) {
+export function calculateVox(currentResult, policy = voxPolicy, { includeRegionalTax = true } = {}) {
   if (!currentResult || currentResult.errors) throw new Error("Se necesita un resultado vigente válido.");
   if (!currentResult.input.active) return { available: false, reason: "income-type-unspecified" };
 
-  // The bill changes the state scale, so keep the shared general base and 2025 regional quota.
+  // Both scenarios use the shared general base; the optional scenario omits the 2025 regional quota.
   const base = currentResult.base;
   const children = currentResult.input.children;
   const childReduction = policy.reductionPerChild * children;
@@ -36,14 +36,14 @@ export function calculateVox(currentResult, policy = voxPolicy) {
   const proposedStateBrackets = [[policy.exemptUpper, 0], [policy.lowerUpper, lowerRate], [null, upperRate]];
   const allowanceRelief = progressiveTax(min(base, stateAllowance), proposedStateBrackets);
   const stateTax = max(0n, lowerTax + upperTax - allowanceRelief);
-  const regionalTax = currentResult.regionalTax;
+  const regionalTax = includeRegionalTax ? currentResult.regionalTax : 0n;
   const tax = stateTax + regionalTax;
   const social = currentResult.social.total;
   const netAnnual = currentResult.gross - social - tax;
   const effectiveRate = currentResult.gross === 0n ? 0n : (tax * RATE_UNIT + currentResult.gross / 2n) / currentResult.gross;
 
   return {
-    available: true, year: currentResult.year, base, children, lowerRate, upperRate,
+    available: true, year: currentResult.year, base, children, lowerRate, upperRate, includeRegionalTax,
     lowerBand, upperBand, lowerTax, upperTax, stateAllowance, allowanceRelief,
     stateTax, regionalTax, tax, social, netAnnual, effectiveRate,
     taxDifference: currentResult.tax - tax,
