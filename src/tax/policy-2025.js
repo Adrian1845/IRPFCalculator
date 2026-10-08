@@ -32,6 +32,13 @@ export const policy2025 = {
     socialSecurity: SOCIAL_SOURCE,
     law: "https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764",
   },
+  savings: {
+    published: "2026-03-27",
+    retrieved: "2026-10-08",
+    source: "https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2025/8-cumplimentacion-irpf/8_4-cuota-integra/8_4_4-gravamen-base-liquidable-ahorro.html",
+    state: [["6000", 950], ["50000", 1050], ["200000", 1150], ["300000", 1350], [null, 1500]],
+    autonomous: [["6000", 950], ["50000", 1050], ["200000", 1150], ["300000", 1350], [null, 1500]],
+  },
   state: [["12450", 950], ["20200", 1200], ["35200", 1500], ["60000", 1850], ["300000", 2250], [null, 2450]],
   stateAllowance: standardAllowance,
   jointReduction: { married: "3400", singleParent: "2150" },

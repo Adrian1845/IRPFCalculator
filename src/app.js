@@ -2,6 +2,9 @@ import { policy2025, professionalGroups, unsupportedTerritories } from "./tax/po
 import { calculate, formatMoney, formatRate } from "./tax/calculator.js";
 import { calculateVox } from "./tax/vox-calculator.js";
 import { validateInput } from "./tax/validation.js";
+import { calculateSavings } from "./tax/savings-calculator.js";
+import { calculateVoxSavings } from "./tax/vox-savings-calculator.js";
+import { validateSavingsInput } from "./tax/savings-validation.js";
 import { formatPerPayment } from "./payment-view.js";
 
 const form = document.querySelector("#irpf-form");
@@ -9,6 +12,7 @@ const regionSelect = document.querySelector("#region");
 const groupSelect = document.querySelector("#professionalGroup");
 const errorSummary = document.querySelector("#error-summary");
 const paymentSelector = document.querySelector(".payment-selector");
+const resultTabs = [...document.querySelectorAll('.result-tabs [role="tab"]')];
 const touched = new Set();
 let submitted = false;
 let latestCurrent = null;
@@ -26,6 +30,12 @@ professionalGroups.forEach((name, index) => groupSelect.add(new Option(`${index 
 
 function rawInput() {
   return Object.fromEntries(new FormData(form));
+}
+
+function validateAll(raw) {
+  const general = validateInput(raw);
+  const savings = validateSavingsInput(raw);
+  return { errors: { ...general.errors, ...savings.errors }, valid: general.valid && savings.valid };
 }
 
 function syncDependentFields() {
@@ -102,7 +112,47 @@ function updatePaymentValues() {
   }
 }
 
-function renderResult(result) {
+function selectResultTab(name) {
+  for (const tab of resultTabs) {
+    const selected = tab.id === `${name}-tab`;
+    tab.setAttribute("aria-selected", String(selected));
+    tab.tabIndex = selected ? 0 : -1;
+    document.getElementById(tab.getAttribute("aria-controls")).hidden = !selected;
+  }
+}
+
+function renderSavingsResult(currentResult, raw) {
+  const savings = calculateSavings(currentResult, raw);
+  const proposed = calculateVoxSavings(savings);
+  setMoney("savings-investment-value", savings.investmentBalance);
+  setMoney("savings-disposal-value", savings.disposalBalance);
+  setMoney("savings-annual-balance", savings.annualBalance);
+  setMoney("current-savings-net-annual", savings.netAnnual);
+  setMoney("current-savings-tax", savings.tax);
+  setMoney("current-savings-state", savings.stateTax);
+  setMoney("current-savings-regional", savings.regionalTax);
+  setMoney("current-combined-tax", savings.currentTotalTax);
+  setMoney("vox-savings-net-annual", proposed.netAnnual);
+  setMoney("vox-savings-tax", proposed.tax);
+  setMoney("vox-savings-state", proposed.stateTax);
+  setMoney("vox-savings-regional", proposed.regionalTax);
+  setMoney("vox-savings-combined-tax", proposed.proposedTotalTax);
+  document.getElementById("savings-tax-difference").textContent = signedMoney(proposed.taxDifference);
+  setMoney("savings-cross-offset", savings.crossOffset);
+  setMoney("savings-unused-investment", savings.unusedInvestmentLoss);
+  setMoney("savings-unused-disposal", savings.unusedDisposalLoss);
+  setMoney("savings-taxable-base", savings.taxableBase);
+  setMoney("savings-joint-reduction", savings.jointReductionApplied);
+  setMoney("savings-base", savings.base);
+  setMoney("savings-state-minimum", savings.stateMinimum);
+  setMoney("savings-regional-minimum", savings.regionalMinimum);
+  document.getElementById("savings-exceptions-warning").hidden = !savings.hasExcludedCases;
+  const hasSavings = savings.investmentBalance !== 0n || savings.disposalBalance !== 0n;
+  document.getElementById("employment-scope-note").hidden = !hasSavings;
+  selectResultTab(hasSavings || savings.hasExcludedCases ? "savings" : "employment");
+}
+
+function renderResult(result, raw) {
   latestCurrent = result;
   document.getElementById("result-empty").hidden = true;
   document.getElementById("result-content").hidden = false;
@@ -131,6 +181,7 @@ function renderResult(result) {
   document.getElementById("vox-unavailable").hidden = proposed.available;
   document.getElementById("comparison-delta").hidden = !proposed.available;
   updatePaymentValues();
+  renderSavingsResult(result, raw);
   if (!proposed.available) return;
 
   setMoney("vox-net-value", proposed.netAnnual);
@@ -151,18 +202,32 @@ function renderResult(result) {
 
 paymentSelector.addEventListener("change", updatePaymentValues);
 
+for (const [index, tab] of resultTabs.entries()) {
+  tab.addEventListener("click", () => selectResultTab(tab.id === "savings-tab" ? "savings" : "employment"));
+  tab.addEventListener("keydown", (event) => {
+    const next = event.key === "ArrowRight" ? (index + 1) % resultTabs.length
+      : event.key === "ArrowLeft" ? (index - 1 + resultTabs.length) % resultTabs.length
+        : event.key === "Home" ? 0 : event.key === "End" ? resultTabs.length - 1 : null;
+    if (next === null) return;
+    event.preventDefault();
+    const target = resultTabs[next];
+    selectResultTab(target.id === "savings-tab" ? "savings" : "employment");
+    target.focus();
+  });
+}
+
 form.addEventListener("focusout", (event) => {
   const field = event.target;
   if (!field.name) return;
   touched.add(field.name);
-  const { errors } = validateInput(rawInput());
+  const { errors } = validateAll(rawInput());
   showErrors(errors);
 });
 
 form.addEventListener("input", () => {
   syncDependentFields();
   if (submitted) {
-    const { errors } = validateInput(rawInput());
+    const { errors } = validateAll(rawInput());
     showErrors(errors, true);
     showSummary(errors);
   }
@@ -178,7 +243,7 @@ form.addEventListener("submit", (event) => {
   submitted = true;
   syncDependentFields();
   const raw = rawInput();
-  const { errors, valid } = validateInput(raw);
+  const { errors, valid } = validateAll(raw);
   showErrors(errors, true);
   showSummary(errors);
   if (!valid) {
@@ -186,7 +251,7 @@ form.addEventListener("submit", (event) => {
     errorSummary.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
-  renderResult(calculate(raw));
+  renderResult(calculate(raw), raw);
   if (window.matchMedia("(max-width: 720px)").matches) {
     document.querySelector(".result-panel").scrollIntoView({ behavior: "smooth", block: "start" });
   }

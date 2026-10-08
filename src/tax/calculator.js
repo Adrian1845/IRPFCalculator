@@ -61,6 +61,8 @@ function validateBrackets(brackets, label) {
 
 export function validatePolicy(policy = policy2025) {
   validateBrackets(policy.state, "estatal");
+  validateBrackets(policy.savings.state, "ahorro estatal");
+  validateBrackets(policy.savings.autonomous, "ahorro autonómico");
   if (Object.keys(policy.regions).length !== 15) throw new Error("Faltan comunidades autónomas");
   for (const [key, region] of Object.entries(policy.regions)) {
     validateBrackets(region.brackets, key);
@@ -159,7 +161,9 @@ export function calculate(raw, policy = policy2025) {
   const netBeforeReduction = max(0n, beforeExpenseNet - generalExpense - extraExpense);
   const reduction = min(netBeforeReduction, employmentReduction(beforeExpenseNet, policy));
   const netEmployment = max(0n, netBeforeReduction - reduction);
-  const jointReduction = input.filing === "individual" ? 0n : min(netEmployment, euros(policy.jointReduction[input.filing]));
+  const jointReductionEntitlement = input.filing === "individual" ? 0n : euros(policy.jointReduction[input.filing]);
+  const jointReduction = min(netEmployment, jointReductionEntitlement);
+  const jointReductionRemainder = jointReductionEntitlement - jointReduction;
   const base = max(0n, netEmployment - jointReduction);
   const region = policy.regions[input.region];
   const stateAllowance = familyAllowance(input, policy.stateAllowance);
@@ -171,7 +175,8 @@ export function calculate(raw, policy = policy2025) {
   const effectiveRate = gross === 0n ? 0n : (tax * 10_000n + gross / 2n) / gross;
   return {
     input, year: policy.year, region: region.name, gross, social, beforeExpenseNet,
-    generalExpense, extraExpense, reduction, netEmployment, jointReduction, base,
+    generalExpense, extraExpense, reduction, netEmployment, jointReduction,
+    jointReductionEntitlement, jointReductionRemainder, base,
     stateAllowance, regionalAllowance, stateTax, regionalTax, tax, netAnnual, effectiveRate,
   };
 }

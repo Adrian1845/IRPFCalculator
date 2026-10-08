@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#152d3b">
-    <meta name="description" content="Compara el IRPF vigente en 2025 con una simulación de la propuesta de VOX para el mismo salario. Cálculo orientativo y privado.">
+    <meta name="description" content="Compara el IRPF vigente en 2025 con simulaciones separadas de propuestas de VOX para trabajo y ahorro. Cálculo orientativo y privado.">
     <title>Comparador IRPF</title>
     <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
     <link rel="stylesheet" href="/src/styles.css">
@@ -25,8 +25,8 @@
         <div class="shell hero-grid">
           <div class="hero-copy">
             <div class="eyebrow"><span class="eyebrow-line"></span> UNA FORMA MÁS CLARA DE ENTENDER TU NÓMINA</div>
-            <h1>Dos sistemas, <em>tu salario.</em></h1>
-            <p>Compara el IRPF vigente de 2025 con una simulación de la propuesta de VOX. Usa los mismos datos para ver la diferencia en impuestos e ingreso neto.</p>
+            <h1>Dos sistemas, <em>tus ingresos.</em></h1>
+            <p>Compara el IRPF vigente de 2025 con simulaciones separadas de las propuestas de VOX sobre trabajo y ahorro. Usa los mismos datos para ver las diferencias.</p>
             <a class="hero-link" href="#calculator">Empezar el cálculo <span aria-hidden="true">↗</span></a>
           </div>
           <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="art-core"><span>IRPF</span><strong>2025</strong></div><div class="art-chip chip-top">TU SALARIO</div><div class="art-chip chip-bottom">CADA EURO CUENTA <span>✳</span></div></div>
@@ -46,17 +46,17 @@
             <fieldset class="form-group">
               <legend><span class="group-number">01</span> Ingresos y residencia</legend>
               <div class="field-grid">
-                <div class="field"><label for="salary">Salario bruto anual <span class="required">*</span></label><div class="input-wrap"><input id="salary" name="salary" type="text" inputmode="decimal" autocomplete="off" placeholder="Ej. 30.000,00" aria-describedby="salary-help salary-error"><span class="input-suffix">€</span></div><small id="salary-help">Ingresos anuales del trabajo o pensión, antes de descuentos.</small><span class="field-error" id="salary-error"></span></div>
+                <div class="field"><label for="salary">Salario o pensión brutos anuales <span class="required">*</span></label><div class="input-wrap"><input id="salary" name="salary" type="text" inputmode="decimal" autocomplete="off" placeholder="Ej. 30.000,00" aria-describedby="salary-help salary-error"><span class="input-suffix">€</span></div><small id="salary-help">Ingresos del trabajo o pensión antes de descuentos. Si solo tienes rentas del ahorro, escribe 0.</small><span class="field-error" id="salary-error"></span></div>
                 <div class="field"><label for="region">Comunidad autónoma <span class="required">*</span></label><select id="region" name="region" aria-describedby="region-help region-error"><option value="">Selecciona tu comunidad</option></select><small id="region-help">País Vasco, Navarra, Ceuta y Melilla requieren reglas específicas.</small><span class="field-error" id="region-error"></span></div>
                 <div class="field"><label for="age">Edad a 31 de diciembre <span class="required">*</span></label><input id="age" name="age" type="number" min="0" max="120" step="1" placeholder="Ej. 35" aria-describedby="age-error"><span class="field-error" id="age-error"></span></div>
-                <div class="field"><label for="filing">Modalidad de declaración <span class="required">*</span></label><select id="filing" name="filing" aria-describedby="filing-help filing-error"><option value="individual">Individual</option><option value="married">Conjunta: matrimonio</option><option value="singleParent">Conjunta: familia monoparental</option></select><small id="filing-help">En conjunta, suponemos que el salario indicado es el único ingreso del hogar.</small><span class="field-error" id="filing-error"></span></div>
+                <div class="field"><label for="filing">Modalidad de declaración <span class="required">*</span></label><select id="filing" name="filing" aria-describedby="filing-help filing-error"><option value="individual">Individual</option><option value="married">Conjunta: matrimonio</option><option value="singleParent">Conjunta: familia monoparental</option></select><small id="filing-help">En conjunta, suponemos que los importes indicados son los únicos ingresos del hogar.</small><span class="field-error" id="filing-error"></span></div>
               </div>
             </fieldset>
 
             <fieldset class="form-group">
               <legend><span class="group-number">02</span> Situación laboral</legend>
               <div class="field-grid">
-                <div class="field"><label for="active">¿Trabajaste en activo? <span class="required">*</span></label><select id="active" name="active" aria-describedby="active-help active-error"><option value="yes">Sí, trabajo por cuenta ajena</option><option value="no">No, percibo pensión u otro rendimiento del trabajo</option></select><small id="active-help">Si no trabajaste, no estimamos cotizaciones del empleado.</small><span class="field-error" id="active-error"></span></div>
+                <div class="field"><label for="active">¿Trabajaste en activo? <span class="required">*</span></label><select id="active" name="active" aria-describedby="active-help active-error"><option value="yes">Sí, trabajo por cuenta ajena</option><option value="no">No, sin actividad o con pensión</option></select><small id="active-help">Si no trabajaste, no estimamos cotizaciones del empleado.</small><span class="field-error" id="active-error"></span></div>
                 <div class="field"><label for="professionalGroup">Grupo de cotización <span class="required">*</span></label><select id="professionalGroup" name="professionalGroup" aria-describedby="professionalGroup-error"><option value="">Selecciona tu grupo</option></select><span class="field-error" id="professionalGroup-error"></span></div>
                 <div class="field"><label for="contract">Tipo de contrato <span class="required">*</span></label><select id="contract" name="contract" aria-describedby="contract-help contract-error"><option value="permanent">Indefinido</option><option value="temporary">Temporal ordinario</option></select><small id="contract-help">Algunos contratos temporales tienen el tipo de desempleo de los indefinidos; esta estimación cubre el temporal ordinario.</small><span class="field-error" id="contract-error"></span></div>
                 <div class="field"><label for="mobility">Movilidad geográfica <span class="required">*</span></label><select id="mobility" name="mobility" aria-describedby="mobility-help mobility-error"><option value="no">No</option><option value="yes">Sí, cumplo los requisitos</option></select><small id="mobility-help">Debías estar en paro e inscrito, aceptar un empleo que exigió mudarte a otro municipio, y estar en el año del traslado o el siguiente.</small><span class="field-error" id="mobility-error"></span></div>
@@ -93,12 +93,27 @@
                 <div class="field"><label for="disabledAscendants65">65 % o más</label><input id="disabledAscendants65" name="disabledAscendants65" type="number" min="0" max="20" step="1" value="0" aria-describedby="disabledAscendants65-error"><span class="field-error" id="disabledAscendants65-error"></span></div>
               </div></div>
             </fieldset>
+
+            <fieldset class="form-group">
+              <legend><span class="group-number">05</span> Rentas del ahorro</legend>
+              <p class="group-help">Indica saldos anuales netos sujetos a la base del ahorro. Usa un número negativo si hubo pérdidas. No incluyas alquileres, rentas exentas ni el importe total obtenido al vender un bien. Los datos anteriores importan: un mínimo personal o familiar no usado y una reducción por declaración conjunta pueden rebajar el impuesto del ahorro.</p>
+              <div class="field-grid">
+                <div class="field"><label for="investmentIncome">Rendimientos netos del capital mobiliario</label><div class="input-wrap"><input id="investmentIncome" name="investmentIncome" type="text" inputmode="decimal" autocomplete="off" value="0" aria-describedby="investmentIncome-help investmentIncome-error"><span class="input-suffix">€</span></div><small id="investmentIncome-help">Intereses, dividendos y seguros sujetos al ahorro; descuenta solo los gastos fiscalmente deducibles, no las retenciones.</small><span class="field-error" id="investmentIncome-error"></span></div>
+                <div class="field"><label for="disposalGains">Ganancias o pérdidas por transmisiones</label><div class="input-wrap"><input id="disposalGains" name="disposalGains" type="text" inputmode="decimal" autocomplete="off" value="0" aria-describedby="disposalGains-help disposalGains-error"><span class="input-suffix">€</span></div><small id="disposalGains-help">Saldo neto de ventas o permutas: ganancia o pérdida fiscal, no precio de venta.</small><span class="field-error" id="disposalGains-error"></span></div>
+                <div class="field"><label for="savingsExceptions">¿Tienes pérdidas anteriores u otros casos especiales?</label><select id="savingsExceptions" name="savingsExceptions" aria-describedby="savingsExceptions-help savingsExceptions-error"><option value="no">No</option><option value="yes">Sí, mostrar aviso de estimación incompleta</option></select><small id="savingsExceptions-help">No modelamos pérdidas de otros años, exenciones especiales, reinversión ni impuestos pagados en el extranjero.</small><span class="field-error" id="savingsExceptions-error"></span></div>
+              </div>
+            </fieldset>
           </form>
 
           <aside class="result-panel" aria-label="Comparación de IRPF estimado">
             <button class="submit-button" type="submit" form="irpf-form">Comparar mi IRPF <span aria-hidden="true">↗</span></button>
-            <div id="result-empty" class="result-empty"><div class="empty-icon">↗</div><span class="result-kicker">COMPARACIÓN / 2025</span><h2>Tu comparación empieza aquí.</h2><p>Rellena tus datos y pulsa «Comparar mi IRPF». Verás los dos resultados en paralelo.</p><div class="empty-lines" aria-hidden="true"><span></span><span></span><span></span></div></div>
+            <div id="result-empty" class="result-empty"><div class="empty-icon">↗</div><span class="result-kicker">COMPARACIÓN / 2025</span><h2>Tu comparación empieza aquí.</h2><p>Rellena tus datos y pulsa «Comparar mi IRPF». Verás las comparaciones de trabajo y ahorro en dos pestañas.</p><div class="empty-lines" aria-hidden="true"><span></span><span></span><span></span></div></div>
             <div id="result-content" class="result-content" hidden aria-live="polite">
+              <div class="result-tabs" role="tablist" aria-label="Tipo de renta">
+                <button id="employment-tab" type="button" role="tab" aria-controls="employment-result" aria-selected="true" tabindex="0">Trabajo</button>
+                <button id="savings-tab" type="button" role="tab" aria-controls="savings-result" aria-selected="false" tabindex="-1">Ahorro</button>
+              </div>
+              <section id="employment-result" role="tabpanel" aria-labelledby="employment-tab" tabindex="0">
               <span class="result-kicker">COMPARACIÓN / EJERCICIO 2025</span>
               <h2>Un salario, dos resultados</h2>
               <p id="result-context" class="result-context"></p>
@@ -139,14 +154,42 @@
                 </section>
               </div>
               <dl id="comparison-delta" class="comparison-delta" hidden><div><dt>IRPF vigente − propuesto</dt><dd id="tax-difference"></dd></div><div><dt>Cambio en ingreso neto con la propuesta</dt><dd id="net-difference"></dd></div></dl>
+              <p id="employment-scope-note" class="scope-note" hidden>Esta pestaña compara solo los rendimientos del trabajo. Consulta «Ahorro» para ver las rentas del ahorro y su efecto en el IRPF vigente.</p>
               <p class="result-disclaimer">Estimación educativa del ejercicio 2025. La propuesta de VOX no es legislación vigente. La base y el tratamiento de hijos compartidos siguen <a href="#proposal-method">los supuestos de esta simulación</a>. Ningún resultado equivale a una declaración o retención de nómina.</p>
+              </section>
+
+              <section id="savings-result" role="tabpanel" aria-labelledby="savings-tab" tabindex="0" hidden>
+                <span class="result-kicker">AHORRO / EJERCICIO 2025</span>
+                <h2>Tu ahorro, dos escenarios</h2>
+                <p class="result-context">La propuesta de VOX de 2024 se simula solo para el primer tramo del ahorro; no se combina con su propuesta sobre salarios.</p>
+                <dl class="savings-input-summary"><div><dt>Capital mobiliario neto</dt><dd id="savings-investment-value"></dd></div><div><dt>Ganancias o pérdidas por transmisiones</dt><dd id="savings-disposal-value"></dd></div><div><dt>Saldo anual de rentas indicado</dt><dd id="savings-annual-balance"></dd></div></dl>
+                <p class="payment-note">Resultado neto = saldo anual indicado − impuestos estimados del ahorro. «Impuestos a pagar» es antes de retenciones, no el importe final de la declaración.</p>
+                <div class="comparison-grid">
+                  <section class="scenario-card current-scenario" aria-labelledby="current-savings-heading">
+                    <span class="scenario-label">SISTEMA VIGENTE · AHORRO 2025</span>
+                    <h3 id="current-savings-heading">IRPF actual del ahorro</h3>
+                    <div class="scenario-net"><span>Resultado neto anual</span><strong id="current-savings-net-annual"></strong></div>
+                    <dl class="result-list"><div><dt>Impuestos a pagar*</dt><dd id="current-savings-tax"></dd></div></dl>
+                  </section>
+                  <section class="scenario-card proposal-scenario" aria-labelledby="vox-savings-heading">
+                    <span class="scenario-label">PROPUESTA VOX 2024 · SIMULACIÓN</span>
+                    <h3 id="vox-savings-heading">IRPF propuesto del ahorro</h3>
+                    <div class="scenario-net"><span>Resultado neto anual</span><strong id="vox-savings-net-annual"></strong></div>
+                    <dl class="result-list"><div><dt>Impuestos a pagar*</dt><dd id="vox-savings-tax"></dd></div></dl>
+                  </section>
+                </div>
+                <dl class="comparison-delta"><div><dt>Menos impuestos y más renta neta anual con la simulación</dt><dd id="savings-tax-difference"></dd></div></dl>
+                <details class="breakdown savings-breakdown"><summary>Ver desglose fiscal <span aria-hidden="true">＋</span></summary><dl><div><dt>Compensación entre tipos de renta</dt><dd id="savings-cross-offset"></dd></div><div><dt>Pérdida de capital mobiliario no usada</dt><dd id="savings-unused-investment"></dd></div><div><dt>Pérdida por transmisiones no usada</dt><dd id="savings-unused-disposal"></dd></div><div><dt>Base imponible del ahorro</dt><dd id="savings-taxable-base"></dd></div><div><dt>Reducción conjunta aplicada al ahorro</dt><dd id="savings-joint-reduction"></dd></div><div><dt>Base liquidable del ahorro</dt><dd id="savings-base"></dd></div><div><dt>Mínimo estatal restante aplicado</dt><dd id="savings-state-minimum"></dd></div><div><dt>Mínimo autonómico restante aplicado</dt><dd id="savings-regional-minimum"></dd></div><div><dt>Cuota estatal vigente del ahorro</dt><dd id="current-savings-state"></dd></div><div><dt>Cuota autonómica vigente del ahorro</dt><dd id="current-savings-regional"></dd></div><div><dt>Cuota estatal simulada del ahorro</dt><dd id="vox-savings-state"></dd></div><div><dt>Cuota autonómica simulada del ahorro</dt><dd id="vox-savings-regional"></dd></div><div><dt>IRPF general vigente + ahorro vigente</dt><dd id="current-combined-tax"></dd></div><div><dt>IRPF general vigente + ahorro propuesto</dt><dd id="vox-savings-combined-tax"></dd></div></dl></details>
+                <p id="savings-exceptions-warning" class="scope-note" role="status" hidden>Has indicado pérdidas anteriores u otros supuestos especiales. Esta estimación puede ser incompleta porque no los incorpora.</p>
+                <p class="result-disclaimer">* «Impuestos a pagar» es la cuota estimada antes de descontar retenciones o pagos a cuenta, no el importe a ingresar en la declaración. El resultado anual resta esa cuota al saldo de rentas indicado; si hay ventas, no incluye la recuperación del capital invertido. Simulación educativa, no legislación vigente: solo el primer tramo del ahorro pasa del 19 % al 0 %; el reparto estatal/autonómico y los tramos superiores sin cambios son supuestos del modelo. <a href="#sources">Consulta las fuentes</a>.</p>
+              </section>
             </div>
           </aside>
         </div>
       </section>
 
-      <section id="method" class="method-section"><div class="shell"><span class="section-kicker">02 / METODOLOGÍA</span><h2>Una base, dos cálculos</h2><div class="method-grid"><article><span>01</span><h3>Partimos de tu bruto</h3><p>Calculamos la cotización del empleado según tu grupo, contrato y las bases de 2025.</p></article><article><span>02</span><h3>Calculamos el sistema vigente</h3><p>Aplicamos las reducciones, los mínimos familiares y las escalas estatal y autonómica de 2025.</p></article><article id="proposal-method"><span>03</span><h3>Simulamos la propuesta</h3><p>Usamos el mismo rendimiento neto del trabajo, sin la reducción por declaración conjunta, y aplicamos los tramos propuestos con cuatro puntos menos por descendiente en ambos tipos. En el modelo, el mínimo exento es un tramo al 0 % y los hijos compartidos cuentan íntegros.</p></article></div></div></section>
-      <section id="sources" class="sources-section shell"><span class="section-kicker">03 / FUENTES</span><h2>Reglas con origen verificable</h2><p>El sistema vigente usa el <a href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/presentacion.html" target="_blank" rel="noopener noreferrer">Manual práctico de Renta 2025 de la AEAT</a> y la <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2025-3780" target="_blank" rel="noopener noreferrer">Orden PJC/178/2025 del BOE</a>. La simulación se basa en <a href="https://www.voxespana.es/noticias/figaredo-anima-a-huir-de-la-resignacion-no-conformarnos-con-globalismos-que-nos-quieren-serviles-y-luchar-por-una-espana-fuerte-en-la-que-los-jovenes-tengan-esperanza-20250821" target="_blank" rel="noopener noreferrer">la descripción publicada por VOX</a> y su <a href="https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-150.PDF" target="_blank" rel="noopener noreferrer">propuesta parlamentaria</a>. El modelo del sistema vigente supone residencia fiscal durante todo el año, un pagador y empleo a jornada completa, o solo una pensión si no trabajaste. No cubre otras rentas, deducciones, regímenes forales ni situaciones especiales.</p></section>
+      <section id="method" class="method-section"><div class="shell"><span class="section-kicker">02 / METODOLOGÍA</span><h2>Dos rentas, escenarios separados</h2><div class="method-grid"><article><span>01</span><h3>Partimos de tu bruto</h3><p>Calculamos la cotización del empleado según tu grupo, contrato y las bases de 2025.</p></article><article><span>02</span><h3>Calculamos el sistema vigente</h3><p>Aplicamos las reducciones, los mínimos familiares y las escalas estatal y autonómica de 2025.</p></article><article id="proposal-method"><span>03</span><h3>Simulamos la propuesta laboral</h3><p>Usamos el mismo rendimiento neto del trabajo, sin la reducción por declaración conjunta, y aplicamos los tramos propuestos con cuatro puntos menos por descendiente en ambos tipos. En el modelo, el mínimo exento es un tramo al 0 % y los hijos compartidos cuentan íntegros.</p></article></div><p class="method-savings">En la pestaña «Ahorro» compensamos las dos clases de rentas según las reglas de 2025 y aplicamos el mínimo familiar restante. La simulación separada de VOX cambia solo el primer tramo del ahorro al 0 %; conserva los demás tramos de 2025 y supone un reparto por mitades entre Estado y comunidad autónoma.</p></div></section>
+      <section id="sources" class="sources-section shell"><span class="section-kicker">03 / FUENTES</span><h2>Reglas con origen verificable</h2><p>El sistema vigente usa el <a href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/presentacion.html" target="_blank" rel="noopener noreferrer">Manual práctico de Renta 2025 de la AEAT</a>, su <a href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2025/8-cumplimentacion-irpf/8_4-cuota-integra/8_4_4-gravamen-base-liquidable-ahorro.html" target="_blank" rel="noopener noreferrer">escala del ahorro</a> y la <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2025-3780" target="_blank" rel="noopener noreferrer">Orden PJC/178/2025 del BOE</a>. La simulación laboral se basa en <a href="https://www.voxespana.es/noticias/figaredo-anima-a-huir-de-la-resignacion-no-conformarnos-con-globalismos-que-nos-quieren-serviles-y-luchar-por-una-espana-fuerte-en-la-que-los-jovenes-tengan-esperanza-20250821" target="_blank" rel="noopener noreferrer">la descripción publicada por VOX</a> y su <a href="https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-150.PDF" target="_blank" rel="noopener noreferrer">propuesta parlamentaria</a>. La simulación separada del ahorro se basa en una <a href="https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-197.PDF" target="_blank" rel="noopener noreferrer">proposición no de ley de 2024</a>. Suponemos residencia fiscal todo el año, un pagador y solo las rentas indicadas; no cubrimos regímenes forales, deducciones especiales ni pérdidas de años anteriores.</p></section>
     </main>
     <footer class="site-footer"><div class="shell footer-inner"><span>Tu renta<span class="brand-dot">.</span> clara</span><span>Ejercicio 2025 · Una estimación para entender, no para declarar.</span></div></footer>
   </body>

@@ -21,7 +21,7 @@ Each policy-data file must record the source URL, tax year, publication date, an
 
 ## Supported scenario
 
-The initial calculator supports a Spanish tax resident for the full year whose only taxable income is employment income or a pension. It assumes no irregular income, salary in kind, exempt income, capital/savings income, economic activity, pension-plan contributions, compensatory payments, tax credits, or regional deductions. Family members entered are assumed to meet the income, filing, dependency, and cohabitation requirements for the relevant allowance.
+This **employment-income module** supports a Spanish tax resident for the full year whose general income is employment income or a pension. It assumes no irregular income, salary in kind, exempt income, economic activity, pension-plan contributions, compensatory payments, tax credits, or regional deductions. Savings income is handled separately by [current-savings-income.md](current-savings-income.md), which reuses this module's general base, allowance, and joint-filing results. Family members entered are assumed to meet the income, filing, dependency, and cohabitation requirements for the relevant allowance.
 
 Support the 15 common-regime autonomous communities. Show País Vasco, Navarra, Ceuta, and Melilla in the territory selector as unsupported because the foral systems and autonomous-city residence deductions require separate rules or additional eligibility data. Do not approximate them using common-regime tables.
 
@@ -86,7 +86,7 @@ Use decimal arithmetic; binary floating-point is not acceptable for money.
 
 1. Calculate the employee's 2025 Social Security contribution using monthly contribution bases, the selected group and contract type, applicable minimum/maximum bases, MEI, and additional solidarity contribution above the maximum base. Convert the annual salary consistently to 12 contribution months.
 2. Derive net employment income: gross income minus employee Social Security, statutory general employment expenses, eligible mobility/active-disability expenses, and the applicable low-employment-income reduction. Cap deductions where the law requires and never allow the net amount below its legal floor.
-3. Apply any selected joint-filing reduction to obtain the general taxable/liquidable base. In the supported scenario there is no savings base.
+3. Apply any selected joint-filing reduction to obtain the general taxable/liquidable base. Retain any unused entitlement for the separate savings calculation; this employment-only module does not itself compute a savings base.
 4. Calculate state and regional personal/family allowances separately. Include taxpayer age, descendants and under-three uplift, ascendants and over-75 uplift, disability, assistance/reduced-mobility uplifts, and the configured sharing percentages. Use regional allowance amounts where applicable.
 5. Apply the progressive 2025 state scale to both the liquidable base and the applicable state allowance; subtract the latter result. Repeat with the selected territory's regional scale and regional allowance. Clamp each quota at zero.
 6. Calculate total IRPF, annual net income, and effective rate from the unrounded internal values.
