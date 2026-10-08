@@ -2,13 +2,17 @@ import { policy2025, professionalGroups, unsupportedTerritories } from "./tax/po
 import { calculate, formatMoney, formatRate } from "./tax/calculator.js";
 import { calculateVox } from "./tax/vox-calculator.js";
 import { validateInput } from "./tax/validation.js";
+import { formatPerPayment } from "./payment-view.js";
 
 const form = document.querySelector("#irpf-form");
 const regionSelect = document.querySelector("#region");
 const groupSelect = document.querySelector("#professionalGroup");
 const errorSummary = document.querySelector("#error-summary");
+const paymentSelector = document.querySelector(".payment-selector");
 const touched = new Set();
 let submitted = false;
+let latestCurrent = null;
+let latestProposed = null;
 
 for (const [key, region] of Object.entries(policy2025.regions).sort((a, b) => a[1].name.localeCompare(b[1].name, "es"))) {
   regionSelect.add(new Option(region.name, key));
@@ -89,7 +93,17 @@ function signedMoney(amount) {
   return amount > 0n ? `+${formatMoney(amount)}` : formatMoney(amount);
 }
 
+function updatePaymentValues() {
+  if (!latestCurrent) return;
+  const paymentCount = Number(paymentSelector.querySelector('input[name="payment-count"]:checked').value);
+  document.getElementById("net-payment-value").textContent = formatPerPayment(latestCurrent.netAnnual, paymentCount);
+  if (latestProposed?.available) {
+    document.getElementById("vox-net-payment-value").textContent = formatPerPayment(latestProposed.netAnnual, paymentCount);
+  }
+}
+
 function renderResult(result) {
+  latestCurrent = result;
   document.getElementById("result-empty").hidden = true;
   document.getElementById("result-content").hidden = false;
   const filing = { individual: "declaración individual", married: "declaración conjunta de matrimonio", singleParent: "declaración conjunta monoparental" }[result.input.filing];
@@ -112,9 +126,11 @@ function renderResult(result) {
   document.getElementById("rate-value").textContent = formatRate(result.effectiveRate);
 
   const proposed = calculateVox(result);
+  latestProposed = proposed;
   document.getElementById("vox-available").hidden = !proposed.available;
   document.getElementById("vox-unavailable").hidden = proposed.available;
   document.getElementById("comparison-delta").hidden = !proposed.available;
+  updatePaymentValues();
   if (!proposed.available) return;
 
   setMoney("vox-net-value", proposed.netAnnual);
@@ -132,6 +148,8 @@ function renderResult(result) {
   document.getElementById("tax-difference").textContent = signedMoney(proposed.taxDifference);
   document.getElementById("net-difference").textContent = signedMoney(proposed.netDifference);
 }
+
+paymentSelector.addEventListener("change", updatePaymentValues);
 
 form.addEventListener("focusout", (event) => {
   const field = event.target;

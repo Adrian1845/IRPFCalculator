@@ -102,12 +102,18 @@
               <span class="result-kicker">COMPARACIÓN / EJERCICIO 2025</span>
               <h2>Un salario, dos resultados</h2>
               <p id="result-context" class="result-context"></p>
+              <fieldset class="payment-selector">
+                <legend>Ver neto medio por paga</legend>
+                <label><input type="radio" name="payment-count" value="12" checked> 12 pagas</label>
+                <label><input type="radio" name="payment-count" value="14"> 14 pagas</label>
+              </fieldset>
+              <p class="payment-note">Media orientativa: neto anual dividido entre 12 o 14. Las pagas y retenciones reales pueden variar.</p>
               <p class="shared-gross">Salario bruto anual <strong id="gross-value"></strong></p>
               <div class="comparison-grid">
                 <section class="scenario-card current-scenario" aria-labelledby="current-heading">
                   <span class="scenario-label">SISTEMA VIGENTE · 2025</span>
                   <h3 id="current-heading">IRPF actual</h3>
-                  <div class="scenario-net"><span>Ingreso neto anual</span><strong id="net-value"></strong></div>
+                  <div class="scenario-net"><span>Neto medio por paga</span><strong id="net-payment-value"></strong><small>Neto anual: <span id="net-value"></span></small></div>
                   <dl class="result-list">
                     <div><dt>IRPF total</dt><dd id="tax-value"></dd></div>
                     <div><dt>Seguridad Social</dt><dd id="social-value"></dd></div>
@@ -121,7 +127,7 @@
                   <span class="scenario-label">PROPUESTA DE VOX · SIMULACIÓN</span>
                   <h3 id="proposal-heading">IRPF propuesto</h3>
                   <div id="vox-available">
-                    <div class="scenario-net"><span>Ingreso neto anual</span><strong id="vox-net-value"></strong></div>
+                    <div class="scenario-net"><span>Neto medio por paga</span><strong id="vox-net-payment-value"></strong><small>Neto anual: <span id="vox-net-value"></span></small></div>
                     <dl class="result-list">
                       <div><dt>IRPF total</dt><dd id="vox-tax-value"></dd></div>
                       <div><dt>Seguridad Social</dt><dd id="vox-social-value"></dd></div>

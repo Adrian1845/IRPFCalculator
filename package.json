@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node scripts/dev-server.mjs",
     "test": "node --test",
-    "lint": "node --check src/app.js && node --check src/tax/calculator.js && node --check src/tax/policy-2025.js && node --check src/tax/validation.js && node --check src/tax/vox-calculator.js && node --check src/tax/vox-policy.js",
+    "lint": "node --check src/app.js && node --check src/payment-view.js && node --check src/tax/calculator.js && node --check src/tax/policy-2025.js && node --check src/tax/validation.js && node --check src/tax/vox-calculator.js && node --check src/tax/vox-policy.js",
     "build": "node scripts/build.mjs"
   }
 }
