@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#152d3b">
+    <meta name="description" content="Compara el IRPF vigente en 2025 con una simulación de la propuesta de VOX para el mismo salario. Cálculo orientativo y privado.">
+    <title>Comparador IRPF 2025 y propuesta de VOX · Tu renta, clara</title>
+    <link rel="stylesheet" href="/src/styles.css">
+    <script type="module" src="/src/app.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#calculator">Ir a la calculadora</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="#inicio" aria-label="Tu renta, clara — inicio"><span class="brand-mark">%</span><span>Tu renta<span class="brand-dot">.</span> clara</span></a>
+        <nav aria-label="Navegación principal"><a href="#calculator">Calculadora</a><a href="#method">Cómo calculamos</a><a href="#sources">Fuentes</a></nav>
+        <span class="year-pill">EJERCICIO 2025</span>
+      </div>
+    </header>
+
+    <main id="inicio">
+      <section class="hero">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-line"></span> UNA FORMA MÁS CLARA DE ENTENDER TU NÓMINA</div>
+            <h1>Dos sistemas, <em>tu salario.</em></h1>
+            <p>Compara el IRPF vigente de 2025 con una simulación de la propuesta de VOX. Usa los mismos datos para ver la diferencia en impuestos e ingreso neto.</p>
+            <a class="hero-link" href="#calculator">Empezar el cálculo <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="hero-art" aria-hidden="true"><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="art-core"><span>IRPF</span><strong>2025</strong></div><div class="art-chip chip-top">TU SALARIO</div><div class="art-chip chip-bottom">CADA EURO CUENTA <span>✳</span></div></div>
+        </div>
+      </section>
+
+      <section class="intro shell" aria-label="Acerca de la calculadora">
+        <div class="intro-note"><span class="intro-symbol">✳</span><p><strong>Una comparación que puedes entender.</strong> Verás las cuotas del sistema vigente, el cálculo de la propuesta y los supuestos empleados.</p></div>
+        <div class="intro-meta">15 comunidades autónomas<br><span>Régimen común · ejercicio 2025</span></div>
+      </section>
+
+      <section id="calculator" class="calculator-section shell">
+        <div class="section-heading"><div><span class="section-kicker">01 / CALCULADORA</span><h2>Compara con tus datos</h2><p>Los campos marcados con * son obligatorios. Todo se calcula en tu navegador; tus datos no se envían a ningún servidor.</p></div><span class="heading-accent" aria-hidden="true">↘</span></div>
+        <div class="workbench">
+          <form id="irpf-form" class="form-panel" novalidate>
+            <div id="error-summary" class="error-summary" role="alert" tabindex="-1" hidden></div>
+            <fieldset class="form-group">
+              <legend><span class="group-number">01</span> Ingresos y residencia</legend>
+              <div class="field-grid">
+                <div class="field"><label for="salary">Salario bruto anual <span class="required">*</span></label><div class="input-wrap"><input id="salary" name="salary" type="text" inputmode="decimal" autocomplete="off" placeholder="Ej. 30.000,00" aria-describedby="salary-help salary-error"><span class="input-suffix">€</span></div><small id="salary-help">Ingresos anuales del trabajo o pensión, antes de descuentos.</small><span class="field-error" id="salary-error"></span></div>
+                <div class="field"><label for="region">Comunidad autónoma <span class="required">*</span></label><select id="region" name="region" aria-describedby="region-help region-error"><option value="">Selecciona tu comunidad</option></select><small id="region-help">País Vasco, Navarra, Ceuta y Melilla requieren reglas específicas.</small><span class="field-error" id="region-error"></span></div>
+                <div class="field"><label for="age">Edad a 31 de diciembre <span class="required">*</span></label><input id="age" name="age" type="number" min="0" max="120" step="1" placeholder="Ej. 35" aria-describedby="age-error"><span class="field-error" id="age-error"></span></div>
+                <div class="field"><label for="filing">Modalidad de declaración <span class="required">*</span></label><select id="filing" name="filing" aria-describedby="filing-help filing-error"><option value="individual">Individual</option><option value="married">Conjunta: matrimonio</option><option value="singleParent">Conjunta: familia monoparental</option></select><small id="filing-help">En conjunta, suponemos que el salario indicado es el único ingreso del hogar.</small><span class="field-error" id="filing-error"></span></div>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <legend><span class="group-number">02</span> Situación laboral</legend>
+              <div class="field-grid">
+                <div class="field"><label for="active">¿Trabajaste en activo? <span class="required">*</span></label><select id="active" name="active" aria-describedby="active-help active-error"><option value="yes">Sí, trabajo por cuenta ajena</option><option value="no">No, percibo pensión u otro rendimiento del trabajo</option></select><small id="active-help">Si no trabajaste, no estimamos cotizaciones del empleado.</small><span class="field-error" id="active-error"></span></div>
+                <div class="field"><label for="professionalGroup">Grupo de cotización <span class="required">*</span></label><select id="professionalGroup" name="professionalGroup" aria-describedby="professionalGroup-error"><option value="">Selecciona tu grupo</option></select><span class="field-error" id="professionalGroup-error"></span></div>
+                <div class="field"><label for="contract">Tipo de contrato <span class="required">*</span></label><select id="contract" name="contract" aria-describedby="contract-help contract-error"><option value="permanent">Indefinido</option><option value="temporary">Temporal ordinario</option></select><small id="contract-help">Algunos contratos temporales tienen el tipo de desempleo de los indefinidos; esta estimación cubre el temporal ordinario.</small><span class="field-error" id="contract-error"></span></div>
+                <div class="field"><label for="mobility">Movilidad geográfica <span class="required">*</span></label><select id="mobility" name="mobility" aria-describedby="mobility-help mobility-error"><option value="no">No</option><option value="yes">Sí, cumplo los requisitos</option></select><small id="mobility-help">Debías estar en paro e inscrito, aceptar un empleo que exigió mudarte a otro municipio, y estar en el año del traslado o el siguiente.</small><span class="field-error" id="mobility-error"></span></div>
+              </div>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <legend><span class="group-number">03</span> Familia</legend>
+              <p class="group-help">Incluye solo familiares que conviven contigo y cumplen los límites de renta y declaración exigidos por la AEAT. Los descendientes deben ser menores de 25 años, salvo discapacidad, supuesto que esta versión aún no recoge.</p>
+              <div class="field-grid">
+                <div class="field"><label for="children">Descendientes menores de 25 años</label><input id="children" name="children" type="number" min="0" max="20" step="1" value="0" aria-describedby="children-error"><span class="field-error" id="children-error"></span></div>
+                <div class="field"><label for="childrenUnder3">De ellos, menores de 3 años</label><input id="childrenUnder3" name="childrenUnder3" type="number" min="0" max="20" step="1" value="0" aria-describedby="childrenUnder3-error"><span class="field-error" id="childrenUnder3-error"></span></div>
+                <div class="field"><label for="exclusiveChildren">Derecho al mínimo por descendientes</label><select id="exclusiveChildren" name="exclusiveChildren" aria-describedby="exclusiveChildren-help exclusiveChildren-error"><option value="yes">Íntegro (100 %)</option><option value="no">Compartido (50 %)</option></select><small id="exclusiveChildren-help">Elige compartido si otro progenitor también tiene derecho al mínimo.</small><span class="field-error" id="exclusiveChildren-error"></span></div>
+              </div>
+              <div class="subgroup"><h3>Ascendientes a tu cargo</h3><p>Se presupone convivencia de al menos seis meses y rentas anuales no exentas de hasta 8.000 €; no deben presentar declaración con rentas superiores a 1.800 €.</p><div class="field-grid thirds">
+                <div class="field"><label for="ascendantsDisabledUnder65">Menores de 65 con discapacidad</label><input id="ascendantsDisabledUnder65" name="ascendantsDisabledUnder65" type="number" min="0" max="20" step="1" value="0" aria-describedby="ascendantsDisabledUnder65-error"><span class="field-error" id="ascendantsDisabledUnder65-error"></span></div>
+                <div class="field"><label for="ascendants65to74">De 65 a 74 años</label><input id="ascendants65to74" name="ascendants65to74" type="number" min="0" max="20" step="1" value="0" aria-describedby="ascendants65to74-error"><span class="field-error" id="ascendants65to74-error"></span></div>
+                <div class="field"><label for="ascendants75plus">De 75 años o más</label><input id="ascendants75plus" name="ascendants75plus" type="number" min="0" max="20" step="1" value="0" aria-describedby="ascendants75plus-error"><span class="field-error" id="ascendants75plus-error"></span></div>
+                <div class="field"><label for="ascendantSharers">Contribuyentes que comparten el mínimo</label><input id="ascendantSharers" name="ascendantSharers" type="number" min="1" max="20" step="1" value="1" aria-describedby="ascendantSharers-error"><span class="field-error" id="ascendantSharers-error"></span></div>
+              </div></div>
+            </fieldset>
+
+            <fieldset class="form-group">
+              <legend><span class="group-number">04</span> Discapacidad</legend>
+              <div class="field"><label for="disability">Tu grado de discapacidad</label><select id="disability" name="disability" aria-describedby="disability-error"><option value="none">Sin discapacidad reconocida</option><option value="moderate">33 % a menos del 65 %, sin movilidad reducida</option><option value="mobility">33 % a menos del 65 %, con movilidad reducida o ayuda de terceros</option><option value="severe">65 % o más</option></select><span class="field-error" id="disability-error"></span></div>
+              <div class="subgroup"><h3>Descendientes con discapacidad</h3><p>Indica cuántos de los descendientes anteriores pertenecen a cada grupo. Una persona solo puede contarse en uno.</p><div class="field-grid thirds">
+                <div class="field"><label for="disabledChildren33">33 % a menos del 65 %</label><input id="disabledChildren33" name="disabledChildren33" type="number" min="0" max="20" step="1" value="0" aria-describedby="disabledChildren33-error"><span class="field-error" id="disabledChildren33-error"></span></div>
+                <div class="field"><label for="disabledChildrenMobility">33 % a menos del 65 %, con movilidad o ayuda</label><input id="disabledChildrenMobility" name="disabledChildrenMobility" type="number" min="0" max="20" step="1" value="0" aria-describedby="disabledChildrenMobility-error"><span class="field-error" id="disabledChildrenMobility-error"></span></div>
+                <div class="field"><label for="disabledChildren65">65 % o más</label><input id="disabledChildren65" name="disabledChildren65" type="number" min="0" max="20" step="1" value="0" aria-describedby="disabledChildren65-error"><span class="field-error" id="disabledChildren65-error"></span></div>
+              </div></div>
+              <div class="subgroup"><h3>Ascendientes con discapacidad</h3><p>Indica cuántos de los ascendientes anteriores pertenecen a cada grupo.</p><div class="field-grid thirds">
+                <div class="field"><label for="disabledAscendants33">33 % a menos del 65 %</label><input id="disabledAscendants33" name="disabledAscendants33" type="number" min="0" max="20" step="1" value="0" aria-describedby="disabledAscendants33-error"><span class="field-error" id="disabledAscendants33-error"></span></div>
+                <div class="field"><label for="disabledAscendantsMobility">33 % a menos del 65 %, con movilidad o ayuda</label><input id="disabledAscendantsMobility" name="disabledAscendantsMobility" type="number" min="0" max="20" step="1" value="0" aria-describedby="disabledAscendantsMobility-error"><span class="field-error" id="disabledAscendantsMobility-error"></span></div>
+                <div class="field"><label for="disabledAscendants65">65 % o más</label><input id="disabledAscendants65" name="disabledAscendants65" type="number" min="0" max="20" step="1" value="0" aria-describedby="disabledAscendants65-error"><span class="field-error" id="disabledAscendants65-error"></span></div>
+              </div></div>
+            </fieldset>
+          </form>
+
+          <aside class="result-panel" aria-label="Comparación de IRPF estimado">
+            <button class="submit-button" type="submit" form="irpf-form">Comparar mi IRPF <span aria-hidden="true">↗</span></button>
+            <div id="result-empty" class="result-empty"><div class="empty-icon">↗</div><span class="result-kicker">COMPARACIÓN / 2025</span><h2>Tu comparación empieza aquí.</h2><p>Rellena tus datos y pulsa «Comparar mi IRPF». Verás los dos resultados en paralelo.</p><div class="empty-lines" aria-hidden="true"><span></span><span></span><span></span></div></div>
+            <div id="result-content" class="result-content" hidden aria-live="polite">
+              <span class="result-kicker">COMPARACIÓN / EJERCICIO 2025</span>
+              <h2>Un salario, dos resultados</h2>
+              <p id="result-context" class="result-context"></p>
+              <p class="shared-gross">Salario bruto anual <strong id="gross-value"></strong></p>
+              <div class="comparison-grid">
+                <section class="scenario-card current-scenario" aria-labelledby="current-heading">
+                  <span class="scenario-label">SISTEMA VIGENTE · 2025</span>
+                  <h3 id="current-heading">IRPF actual</h3>
+                  <div class="scenario-net"><span>Ingreso neto anual</span><strong id="net-value"></strong></div>
+                  <dl class="result-list">
+                    <div><dt>IRPF total</dt><dd id="tax-value"></dd></div>
+                    <div><dt>Seguridad Social</dt><dd id="social-value"></dd></div>
+                    <div><dt>Tipo efectivo de IRPF</dt><dd id="rate-value"></dd></div>
+                    <div><dt>Cuota estatal</dt><dd id="state-value"></dd></div>
+                    <div><dt>Cuota autonómica</dt><dd id="regional-value"></dd></div>
+                  </dl>
+                  <details class="breakdown"><summary>Desglose vigente <span aria-hidden="true">＋</span></summary><dl><div><dt>Base de cotización mensual</dt><dd id="monthly-base"></dd></div><div><dt>Rendimiento antes de gastos</dt><dd id="before-expense"></dd></div><div><dt>Gasto general deducible</dt><dd id="general-expense"></dd></div><div><dt>Gastos adicionales deducibles</dt><dd id="extra-expense"></dd></div><div><dt>Reducción por bajos rendimientos</dt><dd id="employment-reduction"></dd></div><div><dt>Reducción por declaración conjunta</dt><dd id="joint-reduction"></dd></div><div><dt>Base liquidable general</dt><dd id="general-base"></dd></div><div><dt>Mínimo personal y familiar estatal</dt><dd id="state-allowance"></dd></div><div><dt>Mínimo personal y familiar autonómico</dt><dd id="regional-allowance"></dd></div></dl></details>
+                </section>
+                <section class="scenario-card proposal-scenario" aria-labelledby="proposal-heading">
+                  <span class="scenario-label">PROPUESTA DE VOX · SIMULACIÓN</span>
+                  <h3 id="proposal-heading">IRPF propuesto</h3>
+                  <div id="vox-available">
+                    <div class="scenario-net"><span>Ingreso neto anual</span><strong id="vox-net-value"></strong></div>
+                    <dl class="result-list">
+                      <div><dt>IRPF total</dt><dd id="vox-tax-value"></dd></div>
+                      <div><dt>Seguridad Social</dt><dd id="vox-social-value"></dd></div>
+                      <div><dt>Tipo efectivo de IRPF</dt><dd id="vox-rate-value"></dd></div>
+                    </dl>
+                    <details class="breakdown"><summary>Desglose de la propuesta <span aria-hidden="true">＋</span></summary><dl><div><dt>Base usada para simular</dt><dd id="vox-base"></dd></div><div><dt>Descendientes computados</dt><dd id="vox-children"></dd></div><div><dt>Tipo tramo inferior</dt><dd id="vox-lower-rate"></dd></div><div><dt>Tipo tramo superior</dt><dd id="vox-upper-rate"></dd></div><div><dt>Base del tramo inferior</dt><dd id="vox-lower-band"></dd></div><div><dt>Base del tramo superior</dt><dd id="vox-upper-band"></dd></div><div><dt>Cuota del tramo inferior</dt><dd id="vox-lower-tax"></dd></div><div><dt>Cuota del tramo superior</dt><dd id="vox-upper-tax"></dd></div></dl></details>
+                  </div>
+                  <p id="vox-unavailable" class="proposal-unavailable" hidden>La propuesta no puede estimarse para este caso: «sin actividad» puede indicar una pensión contributiva u otro ingreso, y el formulario no los distingue.</p>
+                </section>
+              </div>
+              <dl id="comparison-delta" class="comparison-delta" hidden><div><dt>IRPF vigente − propuesto</dt><dd id="tax-difference"></dd></div><div><dt>Cambio en ingreso neto con la propuesta</dt><dd id="net-difference"></dd></div></dl>
+              <p class="result-disclaimer">Estimación educativa del ejercicio 2025. La propuesta de VOX no es legislación vigente. La base y el tratamiento de hijos compartidos siguen <a href="#proposal-method">los supuestos de esta simulación</a>. Ningún resultado equivale a una declaración o retención de nómina.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="method" class="method-section"><div class="shell"><span class="section-kicker">02 / METODOLOGÍA</span><h2>Una base, dos cálculos</h2><div class="method-grid"><article><span>01</span><h3>Partimos de tu bruto</h3><p>Calculamos la cotización del empleado según tu grupo, contrato y las bases de 2025.</p></article><article><span>02</span><h3>Calculamos el sistema vigente</h3><p>Aplicamos las reducciones, los mínimos familiares y las escalas estatal y autonómica de 2025.</p></article><article id="proposal-method"><span>03</span><h3>Simulamos la propuesta</h3><p>Usamos el mismo rendimiento neto del trabajo, sin la reducción por declaración conjunta, y aplicamos los tramos propuestos con cuatro puntos menos por descendiente en ambos tipos. En el modelo, el mínimo exento es un tramo al 0 % y los hijos compartidos cuentan íntegros.</p></article></div></div></section>
+      <section id="sources" class="sources-section shell"><span class="section-kicker">03 / FUENTES</span><h2>Reglas con origen verificable</h2><p>El sistema vigente usa el <a href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/presentacion.html" target="_blank" rel="noopener noreferrer">Manual práctico de Renta 2025 de la AEAT</a> y la <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2025-3780" target="_blank" rel="noopener noreferrer">Orden PJC/178/2025 del BOE</a>. La simulación se basa en <a href="https://www.voxespana.es/noticias/figaredo-anima-a-huir-de-la-resignacion-no-conformarnos-con-globalismos-que-nos-quieren-serviles-y-luchar-por-una-espana-fuerte-en-la-que-los-jovenes-tengan-esperanza-20250821" target="_blank" rel="noopener noreferrer">la descripción publicada por VOX</a> y su <a href="https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-150.PDF" target="_blank" rel="noopener noreferrer">propuesta parlamentaria</a>. El modelo del sistema vigente supone residencia fiscal durante todo el año, un pagador y empleo a jornada completa, o solo una pensión si no trabajaste. No cubre otras rentas, deducciones, regímenes forales ni situaciones especiales.</p></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-inner"><span>Tu renta<span class="brand-dot">.</span> clara</span><span>Ejercicio 2025 · Una estimación para entender, no para declarar.</span></div></footer>
+  </body>
+</html>
