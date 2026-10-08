@@ -1,4 +1,5 @@
-import { euros } from "./calculator.js";
+import { euros, progressiveTax } from "./calculator.js";
+import { policy2025 } from "./policy-2025.js";
 import { voxPolicy } from "./vox-policy.js";
 
 const RATE_UNIT = 10_000n;
@@ -19,8 +20,8 @@ export function calculateVox(currentResult, policy = voxPolicy) {
   if (!currentResult || currentResult.errors) throw new Error("Se necesita un resultado vigente válido.");
   if (!currentResult.input.active) return { available: false, reason: "income-type-unspecified" };
 
-  // VOX has not specified retention of the current joint-filing reduction.
-  const base = currentResult.netEmployment;
+  // The bill changes the state scale, so keep the shared general base and 2025 regional quota.
+  const base = currentResult.base;
   const children = currentResult.input.children;
   const childReduction = policy.reductionPerChild * children;
   const lowerRate = Math.max(0, policy.lowerRate - childReduction);
@@ -31,14 +32,20 @@ export function calculateVox(currentResult, policy = voxPolicy) {
   const upperBand = max(0n, base - lowerUpper);
   const lowerTax = lowerBand * BigInt(lowerRate) / RATE_UNIT;
   const upperTax = upperBand * BigInt(upperRate) / RATE_UNIT;
-  const tax = lowerTax + upperTax;
+  const stateAllowance = currentResult.stateAllowance + exemptUpper - euros(policy2025.stateAllowance.taxpayer);
+  const proposedStateBrackets = [[policy.exemptUpper, 0], [policy.lowerUpper, lowerRate], [null, upperRate]];
+  const allowanceRelief = progressiveTax(min(base, stateAllowance), proposedStateBrackets);
+  const stateTax = max(0n, lowerTax + upperTax - allowanceRelief);
+  const regionalTax = currentResult.regionalTax;
+  const tax = stateTax + regionalTax;
   const social = currentResult.social.total;
   const netAnnual = currentResult.gross - social - tax;
   const effectiveRate = currentResult.gross === 0n ? 0n : (tax * RATE_UNIT + currentResult.gross / 2n) / currentResult.gross;
 
   return {
     available: true, year: currentResult.year, base, children, lowerRate, upperRate,
-    lowerBand, upperBand, lowerTax, upperTax, tax, social, netAnnual, effectiveRate,
+    lowerBand, upperBand, lowerTax, upperTax, stateAllowance, allowanceRelief,
+    stateTax, regionalTax, tax, social, netAnnual, effectiveRate,
     taxDifference: currentResult.tax - tax,
     netDifference: netAnnual - currentResult.netAnnual,
   };

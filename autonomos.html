@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#152d3b">
+    <meta name="description" content="Calculadora orientativa del IRPF vigente de autónomos en estimación directa simplificada para el ejercicio 2025.">
+    <title>IRPF de autónomos 2025 · Tu renta clara</title>
+    <link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+    <link rel="stylesheet" href="/src/styles.css">
+    <script type="module" src="/src/autonomos-app.js"></script>
+    <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+    <script defer src="/_vercel/insights/script.js"></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#calculator">Ir a la calculadora</a>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="Tu renta, clara — inicio"><span class="brand-mark">%</span><span>Tu renta<span class="brand-dot">.</span> clara</span></a>
+        <nav aria-label="Navegación principal"><a href="/">Trabajo y ahorro</a><a href="#calculator" aria-current="page">Autónomos</a><a href="#sources">Fuentes</a></nav>
+        <span class="year-pill">EJERCICIO 2025</span>
+      </div>
+    </header>
+    <main>
+      <section class="hero autonomos-hero">
+        <div class="shell hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow"><span class="eyebrow-line"></span> ACTIVIDAD ECONÓMICA · EJERCICIO 2025</div>
+            <h1>Tu IRPF como <em>autónomo.</em></h1>
+            <p>Estima la cuota anual vigente a partir de los ingresos y gastos fiscales de una actividad en estimación directa simplificada.</p>
+            <a class="hero-link" href="#calculator">Empezar cálculo <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="autonomos-hero-card" aria-hidden="true"><span>INGRESOS</span><b>− GASTOS</b><strong>= RENDIMIENTO</strong><i>IRPF 2025</i></div>
+        </div>
+      </section>
+      <section class="intro shell" aria-label="Alcance de la calculadora">
+        <div class="intro-note"><span class="intro-symbol" aria-hidden="true">✦</span><p><strong>IRPF vigente y escenario político separado.</strong> Puedes explorar qué pasaría si se bonificara tu cuota RETA. <a href="#vox-note">Ver alcance y propuestas de VOX</a>.</p></div>
+        <div class="intro-meta">Una actividad EDS<br><span>Sin otras rentas gravables</span></div>
+      </section>
+      <section id="calculator" class="calculator-section shell">
+        <div class="section-heading"><div><span class="section-kicker">01 / CALCULADORA</span><h2>Calcula tu cuota anual</h2><p>Usa cifras fiscales de 2025, sin descontar retenciones. Los datos se calculan en tu navegador.</p></div><span class="heading-accent" aria-hidden="true">↘</span></div>
+        <div class="workbench">
+          <form id="autonomos-form" class="form-panel" novalidate>
+            <div id="error-summary" class="error-summary" role="alert" tabindex="-1" hidden></div>
+            <fieldset class="form-group">
+              <legend><span class="group-number">01</span> Actividad e importes</legend>
+              <p class="group-help">Estima la actividad que declaras en estimación directa simplificada (EDS). Los gastos deben estar vinculados a ella, registrados y justificados.</p>
+              <div class="field-grid">
+                <div class="field"><label for="businessIncome">Ingresos íntegros computables <span class="required">*</span></label><div class="input-wrap"><input id="businessIncome" name="businessIncome" type="text" inputmode="decimal" autocomplete="off" placeholder="Ej. 40.000,00" aria-describedby="businessIncome-help businessIncome-error"><span class="input-suffix">€</span></div><small id="businessIncome-help">Ingresos fiscales de 2025 sin IVA repercutido ni retenciones descontadas. Incluye otros ingresos de actividad que debas declarar.</small><span class="field-error" id="businessIncome-error"></span></div>
+                <div class="field"><label for="businessExpenses">Otros gastos deducibles <span class="required">*</span></label><div class="input-wrap"><input id="businessExpenses" name="businessExpenses" type="text" inputmode="decimal" autocomplete="off" placeholder="Ej. 10.000,00" aria-describedby="businessExpenses-help businessExpenses-error"><span class="input-suffix">€</span></div><small id="businessExpenses-help">Incluye amortizaciones fiscales. Excluye cuotas del RETA y el 5 % de difícil justificación: se calculan aparte.</small><span class="field-error" id="businessExpenses-error"></span></div>
+                <div class="field"><label for="retaPaid">Cuotas del RETA pagadas <span class="required">*</span></label><div class="input-wrap"><input id="retaPaid" name="retaPaid" type="text" inputmode="decimal" autocomplete="off" value="0" aria-describedby="retaPaid-help retaPaid-error"><span class="input-suffix">€</span></div><small id="retaPaid-help">Seguridad Social del titular imputable a esta actividad; no la repitas en otros gastos. Una mutualidad alternativa requiere reglas específicas.</small><span class="field-error" id="retaPaid-error"></span></div>
+                <div class="field"><label for="retaAdjustment">Regularización del RETA</label><div class="input-wrap"><input id="retaAdjustment" name="retaAdjustment" type="text" inputmode="decimal" autocomplete="off" value="0" aria-describedby="retaAdjustment-help retaAdjustment-error"><span class="input-suffix">€</span></div><small id="retaAdjustment-help">Si en 2025 pagaste un suplemento por cuotas anteriores, ponlo en positivo. Si te devolvieron cuotas, en negativo.</small><span class="field-error" id="retaAdjustment-error"></span></div>
+              </div>
+              <div class="subgroup"><h3>Condiciones de esta versión</h3><p>Selecciona «No» o «Sí» según tu situación. Si queda fuera del alcance, la calculadora explicará por qué.</p><div class="field-grid">
+                <div class="field"><label for="edsEligible">¿Tributas en EDS en 2025? <span class="required">*</span></label><select id="edsEligible" name="edsEligible" aria-describedby="edsEligible-help edsEligible-error"><option value="">Selecciona</option><option value="yes">Sí, estimación directa simplificada</option><option value="no">No / no lo sé</option></select><small id="edsEligible-help">Comprueba tu régimen censal: el límite de cifra de negocios se refiere al año anterior, no a la facturación de 2025.</small><span class="field-error" id="edsEligible-error"></span></div>
+                <div class="field"><label for="singleActivity">¿Es la única actividad del hogar? <span class="required">*</span></label><select id="singleActivity" name="singleActivity" aria-describedby="singleActivity-help singleActivity-error"><option value="">Selecciona</option><option value="yes">Sí</option><option value="no">No / no lo sé</option></select><small id="singleActivity-help">En declaración conjunta cuenta también la actividad del resto de la unidad familiar.</small><span class="field-error" id="singleActivity-error"></span></div>
+                <div class="field"><label for="otherIncome">¿Hay otras rentas gravables? <span class="required">*</span></label><select id="otherIncome" name="otherIncome" aria-describedby="otherIncome-help otherIncome-error"><option value="">Selecciona</option><option value="no">No</option><option value="yes">Sí / no lo sé</option></select><small id="otherIncome-help">Por ejemplo salario, pensión, intereses, alquileres o ganancias por venta de bienes, también de otros miembros si presentáis conjunta.</small><span class="field-error" id="otherIncome-error"></span></div>
+                <div class="field"><label for="specialCases">¿Tienes otros supuestos fiscales especiales? <span class="required">*</span></label><select id="specialCases" name="specialCases" aria-describedby="specialCases-help specialCases-error"><option value="">Selecciona</option><option value="no">No</option><option value="yes">Sí / no lo sé</option></select><small id="specialCases-help">Otras reducciones o deducciones, pérdidas anteriores, mutualidad alternativa, actividad artística, cliente único o venta de bienes afectos requieren otro cálculo.</small><span class="field-error" id="specialCases-error"></span></div>
+              </div></div>
+              <div class="subgroup"><h3>Inicio de actividad</h3><p>La reducción del 20 % se aplica solo en el primer ejercicio con rendimiento positivo y el siguiente, si se cumplen todos los requisitos.</p><div class="field-grid">
+                <div class="field"><label for="startup">Período de la reducción</label><select id="startup" name="startup" aria-describedby="startup-help startup-error"><option value="none">No procede</option><option value="first">Primer ejercicio con rendimiento positivo</option><option value="next">Ejercicio siguiente</option></select><small id="startup-help">Se limita a los primeros 100.000 € de rendimiento apto.</small><span class="field-error" id="startup-error"></span></div>
+                <div class="field"><label for="startupRequirements">¿Confirmas los requisitos de inicio?</label><select id="startupRequirements" name="startupRequirements" aria-describedby="startupRequirements-help startupRequirements-error"><option value="no">No / no lo sé</option><option value="yes">Sí, cumplo todos</option></select><small id="startupRequirements-help">La actividad empezó desde 2013; no ejerciste otra el año previo ni procedió más del 50 % de los ingresos de tu antiguo empleador en 2025.</small><span class="field-error" id="startupRequirements-error"></span></div>
+              </div></div>
+            </fieldset>
+            <fieldset class="form-group">
+              <legend><span class="group-number">02</span> Residencia y familia</legend>
+              <p class="group-help">Incluye solo familiares que cumplen los requisitos de convivencia, rentas y declaración para el mínimo familiar. La modalidad conjunta supone que los importes indicados son las únicas rentas de la unidad familiar.</p>
+              <div class="field-grid">
+                <div class="field"><label for="region">Comunidad autónoma <span class="required">*</span></label><select id="region" name="region" aria-describedby="region-help region-error"><option value="">Selecciona tu comunidad</option></select><small id="region-help">País Vasco, Navarra, Ceuta y Melilla requieren reglas específicas.</small><span class="field-error" id="region-error"></span></div>
+                <div class="field"><label for="age">Edad a 31 de diciembre <span class="required">*</span></label><input id="age" name="age" type="text" inputmode="numeric" pattern="[0-9]*" placeholder="Ej. 35" aria-describedby="age-error"><span class="field-error" id="age-error"></span></div>
+                <div class="field"><label for="filing">Modalidad de declaración <span class="required">*</span></label><select id="filing" name="filing" aria-describedby="filing-error"><option value="individual">Individual</option><option value="married">Conjunta: matrimonio</option><option value="singleParent">Conjunta: familia monoparental</option></select><span class="field-error" id="filing-error"></span></div>
+                <div class="field"><label for="disability">Tu grado de discapacidad</label><select id="disability" name="disability" aria-describedby="disability-error"><option value="none">Sin discapacidad reconocida</option><option value="moderate">33 % a menos del 65 %</option><option value="mobility">33 % a menos del 65 %, con movilidad o ayuda</option><option value="severe">65 % o más</option></select><span class="field-error" id="disability-error"></span></div>
+                <div class="field"><label for="children">Descendientes menores de 25 años</label><input id="children" name="children" type="text" inputmode="numeric" value="0" aria-describedby="children-error"><span class="field-error" id="children-error"></span></div>
+                <div class="field"><label for="childrenUnder3">De ellos, menores de 3 años</label><input id="childrenUnder3" name="childrenUnder3" type="text" inputmode="numeric" value="0" aria-describedby="childrenUnder3-error"><span class="field-error" id="childrenUnder3-error"></span></div>
+                <div class="field"><label for="exclusiveChildren">Mínimo por descendientes</label><select id="exclusiveChildren" name="exclusiveChildren" aria-describedby="exclusiveChildren-help exclusiveChildren-error"><option value="yes">Íntegro (100 %)</option><option value="no">Compartido (50 %)</option></select><small id="exclusiveChildren-help">Elige compartido si otro progenitor tiene derecho al mínimo.</small><span class="field-error" id="exclusiveChildren-error"></span></div>
+              </div>
+              <div class="subgroup"><h3>Ascendientes a tu cargo</h3><p>Se presupone convivencia de al menos seis meses y cumplimiento de los límites de renta y declaración exigidos por la AEAT.</p><div class="field-grid thirds">
+                <div class="field"><label for="ascendantsDisabledUnder65">Menores de 65 con discapacidad</label><input id="ascendantsDisabledUnder65" name="ascendantsDisabledUnder65" type="text" inputmode="numeric" value="0" aria-describedby="ascendantsDisabledUnder65-error"><span class="field-error" id="ascendantsDisabledUnder65-error"></span></div>
+                <div class="field"><label for="ascendants65to74">De 65 a 74 años</label><input id="ascendants65to74" name="ascendants65to74" type="text" inputmode="numeric" value="0" aria-describedby="ascendants65to74-error"><span class="field-error" id="ascendants65to74-error"></span></div>
+                <div class="field"><label for="ascendants75plus">De 75 años o más</label><input id="ascendants75plus" name="ascendants75plus" type="text" inputmode="numeric" value="0" aria-describedby="ascendants75plus-error"><span class="field-error" id="ascendants75plus-error"></span></div>
+                <div class="field"><label for="ascendantSharers">Contribuyentes que comparten el mínimo</label><input id="ascendantSharers" name="ascendantSharers" type="text" inputmode="numeric" value="1" aria-describedby="ascendantSharers-error"><span class="field-error" id="ascendantSharers-error"></span></div>
+              </div></div>
+              <div class="subgroup"><h3>Familiares con discapacidad</h3><p>Cuenta cada familiar en un solo grupo. Los descendientes mayores de 24 años con discapacidad no están cubiertos por este formulario.</p><div class="field-grid thirds">
+                <div class="field"><label for="disabledChildren33">Descendientes: 33 % a menos del 65 %</label><input id="disabledChildren33" name="disabledChildren33" type="text" inputmode="numeric" value="0" aria-describedby="disabledChildren33-error"><span class="field-error" id="disabledChildren33-error"></span></div>
+                <div class="field"><label for="disabledChildrenMobility">Descendientes: 33 % a menos del 65 %, con movilidad</label><input id="disabledChildrenMobility" name="disabledChildrenMobility" type="text" inputmode="numeric" value="0" aria-describedby="disabledChildrenMobility-error"><span class="field-error" id="disabledChildrenMobility-error"></span></div>
+                <div class="field"><label for="disabledChildren65">Descendientes: 65 % o más</label><input id="disabledChildren65" name="disabledChildren65" type="text" inputmode="numeric" value="0" aria-describedby="disabledChildren65-error"><span class="field-error" id="disabledChildren65-error"></span></div>
+                <div class="field"><label for="disabledAscendants33">Ascendientes: 33 % a menos del 65 %</label><input id="disabledAscendants33" name="disabledAscendants33" type="text" inputmode="numeric" value="0" aria-describedby="disabledAscendants33-error"><span class="field-error" id="disabledAscendants33-error"></span></div>
+                <div class="field"><label for="disabledAscendantsMobility">Ascendientes: 33 % a menos del 65 %, con movilidad</label><input id="disabledAscendantsMobility" name="disabledAscendantsMobility" type="text" inputmode="numeric" value="0" aria-describedby="disabledAscendantsMobility-error"><span class="field-error" id="disabledAscendantsMobility-error"></span></div>
+                <div class="field"><label for="disabledAscendants65">Ascendientes: 65 % o más</label><input id="disabledAscendants65" name="disabledAscendants65" type="text" inputmode="numeric" value="0" aria-describedby="disabledAscendants65-error"><span class="field-error" id="disabledAscendants65-error"></span></div>
+              </div></div>
+            </fieldset>
+          </form>
+          <aside class="result-panel" aria-label="IRPF estimado de autónomos">
+            <button class="submit-button" type="submit" form="autonomos-form">Calcular mi IRPF <span aria-hidden="true">↗</span></button>
+            <div id="result-empty" class="result-empty"><div class="empty-icon">↗</div><span class="result-kicker">AUTÓNOMOS / 2025</span><h2>Tu estimación empieza aquí.</h2><p>Introduce los importes fiscales de tu actividad y tus circunstancias familiares.</p><div class="empty-lines" aria-hidden="true"><span></span><span></span><span></span></div></div>
+            <div id="result-content" class="result-content" hidden aria-live="polite">
+              <span class="result-kicker">SISTEMA VIGENTE / 2025</span><h2>IRPF de tu actividad</h2>
+              <p class="result-context" id="result-context"></p>
+              <div class="autonomos-total"><span>Cuota anual estimada de IRPF</span><strong id="tax-value"></strong><small>Antes de retenciones y pagos fraccionados</small></div>
+              <dl class="result-list">
+                <div><dt>Rendimiento neto fiscal</dt><dd id="net-yield"></dd></div>
+                <div><dt>Reducción por rentas bajas</dt><dd id="low-income-reduction"></dd></div>
+                <div><dt>Reducción por inicio</dt><dd id="startup-reduction"></dd></div>
+                <div><dt>Base liquidable general</dt><dd id="general-base"></dd></div>
+                <div><dt>Cuota estatal</dt><dd id="state-tax"></dd></div>
+                <div><dt>Cuota autonómica</dt><dd id="regional-tax"></dd></div>
+              </dl>
+              <details class="breakdown"><summary>Ver desglose del rendimiento <span aria-hidden="true">＋</span></summary><dl>
+                <div><dt>Ingresos indicados</dt><dd id="income-value"></dd></div>
+                <div><dt>Otros gastos deducibles</dt><dd id="expenses-value"></dd></div>
+                <div><dt>Gasto RETA computado</dt><dd id="reta-expense"></dd></div>
+                <div><dt>Exceso de devolución RETA como ingreso</dt><dd id="reta-refund"></dd></div>
+                <div><dt>Rendimiento antes del 5 %</dt><dd id="preliminary-yield"></dd></div>
+                <div><dt>Provisiones y difícil justificación (5 %)</dt><dd id="difficult-expense"></dd></div>
+                <div><dt>Reducción por declaración conjunta</dt><dd id="joint-reduction"></dd></div>
+                <div><dt>Mínimo estatal aplicado</dt><dd id="state-allowance"></dd></div>
+                <div><dt>Mínimo autonómico aplicado</dt><dd id="regional-allowance"></dd></div>
+              </dl></details>
+              <section class="autonomos-proposal" aria-labelledby="reta-proposal-title">
+                <span class="scenario-label">PROPUESTA VOX · ESCENARIO CONDICIONAL</span>
+                <h3 id="reta-proposal-title">Cuota RETA bonificada</h3>
+                <p><a href="https://www.congreso.es/public_oficiales/L15/CONG/BOCG/B/BOCG-15-B-118-1.PDF" target="_blank" rel="noopener noreferrer">VOX propuso</a> bonificar el 100 % de la cuota a autónomos con ingresos reales inferiores al SMI. En 2025, el <a href="https://www.boe.es/buscar/act.php?id=BOE-A-2025-2576" target="_blank" rel="noopener noreferrer">SMI anual</a> era de <strong id="vox-smi"></strong>. La propuesta no define aquí cómo verificar tus ingresos reales; tampoco se podría combinar con el ingreso mínimo vital según su texto de 2024.</p>
+                <details id="reta-bonus-details" class="proposal-details">
+                  <summary>Ver qué pasaría si cumplieras los requisitos <span aria-hidden="true">＋</span></summary>
+                  <div class="proposal-details-content">
+                    <p>Supuesto: la cuota RETA de 2025 que has indicado se bonifica por completo. Se conserva cualquier regularización de cuotas de años anteriores y se recalcula el IRPF, porque la cuota que dejas de pagar tampoco sería gasto deducible. Esta cifra <strong>no determina tu elegibilidad</strong> ni incluye la reforma general del IRPF de VOX.</p>
+                    <dl class="result-list">
+                      <div><dt>Cuota RETA introducida</dt><dd id="vox-reta-current"></dd></div>
+                      <div><dt>Cuota RETA en el escenario</dt><dd id="vox-reta-proposed"></dd></div>
+                      <div><dt>IRPF vigente estimado</dt><dd id="vox-reta-current-tax"></dd></div>
+                      <div><dt>IRPF con cuota bonificada</dt><dd id="vox-reta-proposed-tax"></dd></div>
+                      <div><dt>Cambio de IRPF</dt><dd id="vox-reta-tax-change"></dd></div>
+                    </dl>
+                    <div class="proposal-impact"><span id="vox-reta-impact-label">Ahorro combinado estimado</span><strong id="vox-reta-impact"></strong></div>
+                  </div>
+                </details>
+              </section>
+              <p class="result-disclaimer">Estimación educativa para una sola actividad en EDS y sin otras rentas gravables. No equivale a la declaración: no incluye retenciones, pagos fraccionados, otras deducciones ni pérdidas de años anteriores. El rendimiento fiscal puede incluir amortizaciones y no representa el dinero disponible. La bonificación RETA de VOX no es legislación vigente.</p>
+            </div>
+          </aside>
+        </div>
+      </section>
+      <section id="vox-note" class="method-section"><div class="shell autonomos-note"><span class="section-kicker">02 / PROPUESTAS</span><h2>¿Qué plantea VOX para autónomos?</h2><p>La <a href="https://www.congreso.es/public_oficiales/L15/CONG/BOCG/B/BOCG-15-B-118-1.PDF" target="_blank" rel="noopener noreferrer">proposición de ley de 2024</a> planteó bonificar la cuota del RETA a quienes ingresaran menos del SMI; <a href="https://www.congreso.es/es/proposiciones-de-ley?_iniciativas_id=122%2F000106&amp;_iniciativas_legislatura=XV&amp;_iniciativas_mode=mostrarDetalle&amp;p_p_id=iniciativas&amp;p_p_lifecycle=0&amp;p_p_mode=view&amp;p_p_state=normal" target="_blank" rel="noopener noreferrer">decayó sin convertirse en ley</a>. La <a href="https://www.congreso.es/public_oficiales/L15/CONG/BOCG/D/BOCG-15-D-435.PDF" target="_blank" rel="noopener noreferrer">moción de 2025</a>, también rechazada, volvió a pedirla y añadió otras medidas.</p><details class="policy-details"><summary>Ver todas las medidas y sus límites <span aria-hidden="true">＋</span></summary><div><ul><li><strong>Cuota RETA:</strong> bonificación del 100 % por debajo del SMI, con la incompatibilidad con el ingreso mínimo vital descrita en el texto de 2024. La calculadora solo muestra un escenario condicional.</li><li><strong>IRPF:</strong> tipos del 15 % y del 25 % y mínimo de 22.000 €. La moción habla de «rentas del trabajo» y no concreta la aplicación a la actividad ni el efecto autonómico; no se suma a esta simulación.</li><li><strong>Contratación:</strong> bonificación de cotizaciones del 100 % el primer año y del 50 % el segundo por nuevos empleos; requiere datos de plantilla y salarios que no se piden aquí.</li><li><strong>Plazos e IVA:</strong> seis meses para pagar la declaración de IRPF o IVA y posibilidad de aplazar una liquidación si hay una devolución de IVA pendiente. Son medidas de liquidez, no una rebaja automática del impuesto.</li></ul><p>VOX también ha <a href="https://www.voxespana.es/noticias/vox-reclama-que-los-autonomos-de-jerez-que-facturen-menos-de-85-000-euros-no-esten-obligados-a-presentar-iva-20260724" target="_blank" rel="noopener noreferrer">apoyado un régimen de IVA franquiciado</a> para pequeñas empresas con facturación inferior a 85.000 €. Es una iniciativa distinta de la bonificación RETA: <a href="https://europa.eu/youreurope/business/finance-and-tax/vat/vat-exemptions/" target="_blank" rel="noopener noreferrer">no permitiría deducir el IVA soportado</a> por las operaciones exentas.</p></div></details></div></section>
+      <section id="sources" class="sources-section shell"><span class="section-kicker">03 / FUENTES</span><h2>Reglas con origen verificable</h2><p>La estimación utiliza el <a href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c07-rendimientos-actividades-economicas-estimacion-directa.html" target="_blank" rel="noopener noreferrer">Manual de Renta 2025 de la AEAT</a>, sus reglas de <a href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-ayuda-presentacion/irpf-2025/7-cumplimentacion-irpf/7_4-rendimientos-actividades-economicas/7_4_2-regimen-estimacion-directa/7_4_2_3-gastos-fiscalmente-deducibles/provisiones-fiscalmente-deducibles.html" target="_blank" rel="noopener noreferrer">gastos de difícil justificación</a>, la <a href="https://sede.agenciatributaria.gob.es/Sede/ayuda/manuales-videos-folletos/manuales-practicos/irpf-2025/c07-rendimientos-actividades-economicas-estimacion-directa/fase-3-determinacion-rendimiento-neto-total/reducciones-generales-ejercicio/reduccion-contribuyentes-rentas-no-exentas.html" target="_blank" rel="noopener noreferrer">reducción por rentas bajas</a> y las escalas territoriales compartidas con la calculadora de trabajo.</p></section>
+    </main>
+    <footer class="site-footer"><div class="shell footer-inner"><span>Tu renta<span class="brand-dot">.</span> clara</span><span>Ejercicio 2025 · Una estimación para entender, no para declarar.</span></div></footer>
+  </body>
+</html>

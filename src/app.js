@@ -237,12 +237,16 @@ function renderResult(result, raw) {
 
   setMoney("vox-net-value", proposed.netAnnual);
   setMoney("vox-tax-value", proposed.tax);
+  setMoney("vox-state-value", proposed.stateTax);
+  setMoney("vox-regional-value", proposed.regionalTax);
   setMoney("vox-social-value", proposed.social);
   setMoney("vox-base", proposed.base);
   setMoney("vox-lower-band", proposed.lowerBand);
   setMoney("vox-upper-band", proposed.upperBand);
   setMoney("vox-lower-tax", proposed.lowerTax);
   setMoney("vox-upper-tax", proposed.upperTax);
+  setMoney("vox-state-allowance", proposed.stateAllowance);
+  setMoney("vox-allowance-relief", proposed.allowanceRelief);
   document.getElementById("vox-rate-value").textContent = formatRate(proposed.effectiveRate);
   document.getElementById("vox-children").textContent = String(proposed.children);
   document.getElementById("vox-lower-rate").textContent = formatRate(BigInt(proposed.lowerRate));
