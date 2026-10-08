@@ -1,6 +1,6 @@
 # Comparador IRPF 2025 y propuesta de VOX
 
-Web estática en español con comparaciones separadas del IRPF vigente del ejercicio 2025 y propuestas de VOX para rentas del trabajo y del ahorro. Muestra las cuotas vigentes y simuladas, las cotizaciones del empleado y sus diferencias. Todo se calcula en el navegador, sin enviar ni almacenar datos personales.
+Web estática en español con comparaciones separadas del IRPF vigente del ejercicio 2025 y propuestas de VOX para rentas del trabajo y del ahorro. Muestra las cuotas vigentes y simuladas, las cotizaciones del empleado y sus diferencias. Los importes del formulario se calculan en el navegador y no se envían al servidor; Vercel Web Analytics registra visitas a la página, sin eventos personalizados que incluyan datos fiscales.
 
 ## Ejecutar y comprobar
 
@@ -43,3 +43,5 @@ Las reglas vigentes están en `src/tax/policy-2025.js`; los cálculos de trabajo
 ## Despliegue
 
 `vercel.json` indica a Vercel que genere y sirva `dist/` como sitio estático. El proyecto no necesita backend ni variables de entorno.
+
+Para activar las métricas de visitas, habilita **Web Analytics** en el panel del proyecto de Vercel y vuelve a desplegar. `index.html` carga `/_vercel/insights/script.js`, la integración HTML para este sitio sin empaquetador; no hace falta instalar `@vercel/analytics`. La ruta del script solo existe en un despliegue de Vercel con Analytics habilitado, por lo que una ejecución local puede mostrar un 404 inocuo para esa ruta. Comprueba la visita en el panel Analytics después del despliegue. No añadas los importes del formulario a eventos, URLs ni parámetros de consulta. Véase la [guía oficial de Vercel](https://vercel.com/docs/analytics/quickstart).
