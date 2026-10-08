@@ -46,6 +46,15 @@ h1, h2, h3, p { margin-top: 0; }
 .hero-link { display: inline-flex; align-items: center; justify-content: space-between; min-width: 196px; gap: 26px; padding: 14px 18px; border-radius: 7px; background: var(--lime); color: var(--ink); font-size: 13px; font-weight: 800; text-decoration: none; transition: transform .2s, background .2s; }
 .hero-link:hover { transform: translateY(-2px); background: #e8ff86; }
 .hero-link span { font-size: 20px; line-height: .8; }
+.hero .hero-alternate { margin: 20px 0 0; font-size: 13px; }
+.hero-alternate a { color: var(--lime); font-weight: 750; text-underline-offset: 3px; }
+.autonomos-hero .hero-grid { min-height: 350px; }
+.autonomos-hero .hero-copy { padding-block: 58px; }
+.autonomos-hero h1 { max-width: 560px; }
+.autonomos-hero-card { width: min(100%, 350px); justify-self: center; display: grid; gap: 10px; padding: 31px; border: 1px solid rgba(255,255,255,.18); border-radius: 16px; background: rgba(255,255,255,.08); box-shadow: 0 22px 55px rgba(0,0,0,.12); transform: rotate(3deg); }
+.autonomos-hero-card span, .autonomos-hero-card b { font-size: 17px; letter-spacing: 1px; }
+.autonomos-hero-card strong { padding-top: 14px; border-top: 1px solid rgba(255,255,255,.25); color: var(--lime); font-size: 25px; letter-spacing: -.8px; }
+.autonomos-hero-card i { color: #bcebc8; font-size: 11px; font-style: normal; font-weight: 800; letter-spacing: 2px; }
 .hero-art { position: relative; width: 100%; height: 400px; }
 .orbit { position: absolute; border: 1px solid rgba(230,255,230,.15); border-radius: 50%; left: 50%; top: 50%; transform: translate(-50%, -50%); }
 .orbit-one { width: 240px; height: 240px; }
@@ -129,6 +138,10 @@ h1, h2, h3, p { margin-top: 0; }
 .empty-lines span:nth-child(2) { width: 75%; }
 .empty-lines span:nth-child(3) { width: 88%; }
 .result-context { font-size: 12px; color: #74858b; line-height: 1.5; margin-bottom: 15px; }
+.autonomos-total { display: grid; gap: 8px; margin: 18px 0; padding: 21px; border-radius: 9px; background: #e3f2cf; }
+.autonomos-total span { color: #4b6c55; font-size: 12px; font-weight: 800; }
+.autonomos-total strong { font-size: clamp(29px, 3vw, 42px); line-height: 1.15; letter-spacing: -1.5px; overflow-wrap: anywhere; }
+.autonomos-total small { color: #526e5b; font-size: 11px; }
 .savings-input-summary { display: grid; gap: 8px; margin: 0; padding: 13px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .savings-input-summary div { display: flex; justify-content: space-between; gap: 10px; font-size: 12px; }
 .savings-input-summary dt { color: var(--muted); }
@@ -178,6 +191,26 @@ h1, h2, h3, p { margin-top: 0; }
 .method-grid h3 { font-size: 18px; letter-spacing: -.5px; margin: 18px 0 9px; }
 .method-grid p { max-width: 310px; color: #6a7d7e; font-size: 13px; line-height: 1.65; }
 .method-savings { max-width: 850px; margin: 31px 0 0; color: #5d7179; font-size: 13px; line-height: 1.7; }
+.autonomos-note p { max-width: 830px; color: #5d7179; font-size: 13px; line-height: 1.75; }
+.autonomos-note a { color: #316e50; font-weight: 750; }
+.autonomos-proposal { margin-top: 24px; padding: 19px; border: 1px solid #cbded5; border-radius: 9px; background: #edf4f1; }
+.autonomos-proposal h3 { margin: 1px 0 8px; font-size: 19px; letter-spacing: -.4px; }
+.autonomos-proposal > p, .proposal-details-content p { color: #5c7476; font-size: 12px; line-height: 1.6; }
+.autonomos-proposal a { color: #316e50; text-underline-offset: 2px; }
+.autonomos-proposal > p { margin: 0 0 15px; }
+.proposal-details, .policy-details { border-top: 1px solid #cbded5; padding-top: 13px; }
+.proposal-details summary, .policy-details summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; cursor: pointer; list-style: none; color: #316e50; font-size: 12px; font-weight: 800; line-height: 1.45; }
+.proposal-details summary::-webkit-details-marker, .policy-details summary::-webkit-details-marker { display: none; }
+.proposal-details summary:focus-visible, .policy-details summary:focus-visible { outline: 2px solid #316e50; outline-offset: 4px; }
+.proposal-details[open] summary span, .policy-details[open] summary span { transform: rotate(45deg); }
+.proposal-details-content { padding-top: 12px; }
+.proposal-details-content .result-list { margin-bottom: 0; }
+.proposal-impact { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; margin-top: 14px; padding: 12px; border-radius: 6px; background: #d7ebe0; font-size: 12px; font-weight: 800; }
+.proposal-impact strong { font-size: 17px; overflow-wrap: anywhere; }
+.policy-details { max-width: 830px; margin-top: 20px; border-color: #c4d4c8; }
+.policy-details > div { padding-top: 9px; }
+.policy-details ul { padding-left: 20px; color: #5d7179; font-size: 13px; line-height: 1.65; }
+.policy-details li + li { margin-top: 9px; }
 .sources-section { padding-block: 75px 90px; }.sources-section p { max-width: 830px; color: #5d7179; font-size: 13px; line-height: 1.8; }
 .sources-section a { color: #367652; font-weight: 700; text-underline-offset: 3px; }
 .site-footer { background: #17313f; color: #b3c8c9; }.footer-inner { min-height: 95px; display: flex; justify-content: space-between; align-items: center; gap: 20px; font-size: 11px; }.footer-inner > span:first-child { font-size: 17px; font-weight: 800; color: white; letter-spacing: -.5px; }
@@ -196,7 +229,7 @@ h1, h2, h3, p { margin-top: 0; }
   .field input, .field select { font-size: 16px; }
   .shell { width: min(calc(100% - 32px), 560px); }
   .header-inner { min-height: 64px; }.brand { font-size: 16px; }.brand-mark { width: 28px; height: 28px; }.site-header nav { display: none; }
-  .hero-grid { display: block; min-height: 0; }.hero-copy { padding: 62px 0 69px; }.hero h1 { font-size: clamp(48px, 12vw, 66px); letter-spacing: -3.5px; }.hero p { font-size: 14px; }.hero-art { display: none; }
+  .hero-grid { display: block; min-height: 0; }.hero-copy { padding: 62px 0 69px; }.hero h1 { font-size: clamp(48px, 12vw, 66px); letter-spacing: -3.5px; }.hero p { font-size: 14px; }.hero-art, .autonomos-hero-card { display: none; }
   .intro { align-items: start; padding-block: 25px; }.intro-note { min-width: 0; }.intro-note p { min-width: 0; }.intro-meta { display: none; }
   .calculator-section { padding-block: 54px 70px; }.section-heading h2 { letter-spacing: -1.5px; }.heading-accent { display: none; }
   .result-empty { min-height: 250px; }.empty-icon { margin-bottom: 25px; }

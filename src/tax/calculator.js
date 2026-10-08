@@ -63,6 +63,12 @@ export function validatePolicy(policy = policy2025) {
   validateBrackets(policy.state, "estatal");
   validateBrackets(policy.savings.state, "ahorro estatal");
   validateBrackets(policy.savings.autonomous, "ahorro autonómico");
+  const activity = policy.selfEmployment;
+  for (const field of ["difficultExpenseRate", "lowIncomeTaper", "startupRate"]) {
+    if (!Number.isInteger(activity[field]) || activity[field] < 0 || activity[field] > 10_000) throw new Error(`Tipo inválido: autónomos.${field}`);
+  }
+  for (const field of ["difficultExpenseLimit", "lowIncomeFullThrough", "lowIncomeEndsAt", "lowIncomeAmount", "startupBaseLimit"]) euros(activity[field]);
+  if (euros(activity.lowIncomeEndsAt) <= euros(activity.lowIncomeFullThrough)) throw new Error("Límites no crecientes: autónomos.rentasBajas");
   if (Object.keys(policy.regions).length !== 15) throw new Error("Faltan comunidades autónomas");
   for (const [key, region] of Object.entries(policy.regions)) {
     validateBrackets(region.brackets, key);
